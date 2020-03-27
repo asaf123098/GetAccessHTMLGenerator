@@ -23,6 +23,7 @@ namespace GetAccessHTMLGenerator
         private string descriptionValue;
 
         private HtmlAgilityPack.HtmlDocument document;
+        private string htmlFileName;
 
         public Form1()
         {
@@ -37,7 +38,7 @@ namespace GetAccessHTMLGenerator
 
         private void parseHTML()
         {
-            string htmlFileName = @"html.html";
+            htmlFileName = @"html.html";
             try
             {
                 document = new HtmlAgilityPack.HtmlDocument();
@@ -59,9 +60,10 @@ namespace GetAccessHTMLGenerator
             imgTag.SetAttributeValue("src", this.imageLinkValue);
 
             HtmlNode descriptionTag = this.findNode("//p[@id='description']");
-            descriptionTag.InnerHtml = this.descriptionValue;
+            descriptionTag.InnerHtml = this.descriptionValue.Replace("\r\n", "<br>\r\n");
 
             Clipboard.SetText(this.document.DocumentNode.WriteTo());
+            this.document.Save(this.htmlFileName);
         }
 
         private HtmlNode findNode(string xpath)
