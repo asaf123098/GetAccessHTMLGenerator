@@ -62,7 +62,8 @@ namespace GetAccessHTMLGenerator
             HtmlNode descriptionTag = this.findNode("//p[@id='description']");
             descriptionTag.InnerHtml = this.descriptionValue.Replace("\r\n", "<br>\r\n");
 
-            Clipboard.SetText(this.document.DocumentNode.WriteTo());
+            string newHtml = this.document.DocumentNode.WriteTo();
+            Clipboard.SetText(this.normalizeString(newHtml));
             this.document.Save(this.htmlFileName);
         }
 
@@ -80,6 +81,12 @@ namespace GetAccessHTMLGenerator
 
         }
 
+        private string normalizeString(string stringToNormalize)
+        {
+            stringToNormalize = stringToNormalize.Replace("\t", "");
+            stringToNormalize = stringToNormalize.Replace("    ", "")
+            return stringToNormalize;
+        }
         private void productName_TextChanged(object sender, EventArgs e)
         {
             this.updateVarValue(varToUpdate: out this.productNameValue, flagToUpdate: out this.productNameHasValue, value: productName.Text);
