@@ -53,7 +53,7 @@ namespace GetAccessHTMLGenerator
 
         private void copyHTMLToClipboard()
         {
-            HtmlNode productNameTag = this.findNode("//h1[@id='productName']");
+            HtmlNode productNameTag = this.findNode("//h2[@id='productName']");
             productNameTag.InnerHtml = this.productNameValue;
 
             HtmlNode imgTag = this.findNode("//img[@id='productImage']");
@@ -84,7 +84,7 @@ namespace GetAccessHTMLGenerator
         private string normalizeString(string stringToNormalize)
         {
             stringToNormalize = stringToNormalize.Replace("\t", "");
-            stringToNormalize = stringToNormalize.Replace("    ", "")
+            stringToNormalize = stringToNormalize.Replace("    ", "");
             return stringToNormalize;
         }
         private void productName_TextChanged(object sender, EventArgs e)
