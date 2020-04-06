@@ -23,35 +23,40 @@ namespace GetAccessHTMLGenerator
         private string descriptionValue;
 
         private HtmlAgilityPack.HtmlDocument document;
-        private string htmlFileName;
+        private const string HtmlFileName = @"html.html";
 
         public Form1()
         {
             InitializeComponent();
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.setAddRowButtonState();
+        }
+
         private void generateHtmlButton_Click(object sender, EventArgs e)
         {
             this.parseHTML();
+            this.updateHtml();
             this.copyHTMLToClipboard();
         }
 
         private void parseHTML()
         {
-            htmlFileName = @"html.html";
             try
             {
                 document = new HtmlAgilityPack.HtmlDocument();
-                document.Load(htmlFileName);
+                document.Load(HtmlFileName);
             }
             catch (System.IO.FileNotFoundException)
             {
-                this.raiseAlert($"Failed to find '{htmlFileName}' in the directory!!!");
+                this.raiseAlert($"Failed to find '{HtmlFileName}' in the directory!!!");
                 Load += (s, e) => Close();
             }
         }
 
-        private void copyHTMLToClipboard()
+        private void updateHtml()
         {
             HtmlNode productNameTag = this.findNode("//h2[@id='productName']");
             productNameTag.InnerHtml = this.productNameValue;
@@ -62,9 +67,13 @@ namespace GetAccessHTMLGenerator
             HtmlNode descriptionTag = this.findNode("//p[@id='description']");
             descriptionTag.InnerHtml = this.descriptionValue.Replace("\r\n", "<br>\r\n");
 
+            this.document.Save(HtmlFileName);
+        }
+
+        private void copyHTMLToClipboard()
+        { 
             string newHtml = this.document.DocumentNode.WriteTo();
             Clipboard.SetText(this.normalizeString(newHtml));
-            this.document.Save(this.htmlFileName);
         }
 
         private HtmlNode findNode(string xpath)
@@ -90,19 +99,19 @@ namespace GetAccessHTMLGenerator
         private void productName_TextChanged(object sender, EventArgs e)
         {
             this.updateVarValue(varToUpdate: out this.productNameValue, flagToUpdate: out this.productNameHasValue, value: productName.Text);
-            this.setGenerateHTMLButtonState();
+            this.setAddRowButtonState();
         }
 
         private void imageLink_TextChanged(object sender, EventArgs e)
         { 
             this.updateVarValue(varToUpdate: out this.imageLinkValue, flagToUpdate: out this.imageLinkHasValue, value:imageLink.Text);
-            this.setGenerateHTMLButtonState();
+            this.setAddRowButtonState();
         }
 
         private void description_TextChanged(object sender, EventArgs e)
         {
             this.updateVarValue(varToUpdate: out this.descriptionValue, flagToUpdate: out this.descriptionHasValue, value: description.Text);
-            this.setGenerateHTMLButtonState();
+            this.setAddRowButtonState();
         }
 
         private void updateVarValue(out string varToUpdate, out bool flagToUpdate, string value)
@@ -120,14 +129,24 @@ namespace GetAccessHTMLGenerator
             }
         }
 
-        private void setGenerateHTMLButtonState()
+        private void setAddRowButtonState()
         {
-            generateHtmlButton.Enabled = this.descriptionHasValue && this.imageLinkHasValue && this.productNameHasValue;
+            addRowButton.Enabled = this.descriptionHasValue && this.imageLinkHasValue && this.productNameHasValue;
         }
 
         private void raiseAlert(string message)
         {
             MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void addRowButton_Click(object sender, EventArgs e)
+        {
+            generateHtmlButton.Enabled = rowsList.Items.Count > 0;
+        }
+
+        private void removeSelectedButton_Click(object sender, EventArgs e)
+        {
+            generateHtmlButton.Enabled = rowsList.Items.Count > 0;
         }
     }
 }
