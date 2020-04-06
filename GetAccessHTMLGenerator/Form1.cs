@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using HtmlAgilityPack;
 
@@ -18,7 +12,7 @@ namespace GetAccessHTMLGenerator
         private bool imageLinkHasValue = false;
         private bool descriptionHasValue = false;
 
-        private string productNameValue;
+        private string rowHeaderValue;
         private string imageLinkValue;
         private string descriptionValue;
 
@@ -52,14 +46,14 @@ namespace GetAccessHTMLGenerator
             catch (System.IO.FileNotFoundException)
             {
                 this.raiseAlert($"Failed to find '{HtmlFileName}' in the directory!!!");
-                Load += (s, e) => Close();
+                this.Close();
             }
         }
 
         private void updateHtml()
         {
             HtmlNode productNameTag = this.findNode("//h2[@id='productName']");
-            productNameTag.InnerHtml = this.productNameValue;
+            productNameTag.InnerHtml = this.rowHeaderValue;
 
             HtmlNode imgTag = this.findNode("//img[@id='productImage']");
             imgTag.SetAttributeValue("src", this.imageLinkValue);
@@ -98,7 +92,7 @@ namespace GetAccessHTMLGenerator
         }
         private void productName_TextChanged(object sender, EventArgs e)
         {
-            this.updateVarValue(varToUpdate: out this.productNameValue, flagToUpdate: out this.productNameHasValue, value: productName.Text);
+            this.updateVarValue(varToUpdate: out this.rowHeaderValue, flagToUpdate: out this.productNameHasValue, value: productName.Text);
             this.setAddRowButtonState();
         }
 
@@ -141,12 +135,25 @@ namespace GetAccessHTMLGenerator
 
         private void addRowButton_Click(object sender, EventArgs e)
         {
+            ListViewItem item = new ListViewItem(this.imageLinkValue);
+            item.SubItems.Add(this.rowHeaderValue);
+            item.SubItems.Add(this.descriptionValue);
+            rowsList.Items.Add(item);
+            generateHtmlButton.Enabled = true;
+        }
+
+        private void RemoveSelectedButton_Click(object sender, EventArgs e)
+        { 
+            foreach (int index in this.rowsList.SelectedIndices)
+            {
+                this.rowsList.Items[index].Remove();
+            }
             generateHtmlButton.Enabled = rowsList.Items.Count > 0;
         }
 
-        private void removeSelectedButton_Click(object sender, EventArgs e)
+        private void rowsList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            generateHtmlButton.Enabled = rowsList.Items.Count > 0;
+            
         }
     }
 }
