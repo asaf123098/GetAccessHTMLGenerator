@@ -26,7 +26,7 @@ namespace GetAccessHTMLGenerator
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.setAddRowButtonState();
+            this.SetGenerateHtmlButtonState();
         }
 
         private void generateHtmlButton_Click(object sender, EventArgs e)
@@ -40,12 +40,12 @@ namespace GetAccessHTMLGenerator
         {
             try
             {
-                document = new HtmlAgilityPack.HtmlDocument();
-                document.Load(HtmlFileName);
+                this.document = new HtmlAgilityPack.HtmlDocument();
+                this.document.Load(HtmlFileName);
             }
             catch (System.IO.FileNotFoundException)
             {
-                this.raiseAlert($"Failed to find '{HtmlFileName}' in the directory!!!");
+                this.RaiseAlert($"Failed to find '{HtmlFileName}' in the directory!!!");
                 this.Close();
             }
         }
@@ -77,7 +77,7 @@ namespace GetAccessHTMLGenerator
                 return nodes.First();
             else
             {
-                this.raiseAlert($"Failed to find xpath: '{xpath}'");
+                this.RaiseAlert($"Failed to find xpath: '{xpath}'");
                 Application.Exit();
                 return null;
             }
@@ -93,19 +93,19 @@ namespace GetAccessHTMLGenerator
         private void productName_TextChanged(object sender, EventArgs e)
         {
             this.updateVarValue(varToUpdate: out this.rowHeaderValue, flagToUpdate: out this.productNameHasValue, value: productName.Text);
-            this.setAddRowButtonState();
+            this.SetAddRowButtonState();
         }
 
         private void imageLink_TextChanged(object sender, EventArgs e)
         { 
             this.updateVarValue(varToUpdate: out this.imageLinkValue, flagToUpdate: out this.imageLinkHasValue, value:imageLink.Text);
-            this.setAddRowButtonState();
+            this.SetAddRowButtonState();
         }
 
         private void description_TextChanged(object sender, EventArgs e)
         {
             this.updateVarValue(varToUpdate: out this.descriptionValue, flagToUpdate: out this.descriptionHasValue, value: description.Text);
-            this.setAddRowButtonState();
+            this.SetAddRowButtonState();
         }
 
         private void updateVarValue(out string varToUpdate, out bool flagToUpdate, string value)
@@ -123,23 +123,23 @@ namespace GetAccessHTMLGenerator
             }
         }
 
-        private void setAddRowButtonState()
+        private void SetAddRowButtonState()
         {
             addRowButton.Enabled = this.descriptionHasValue && this.imageLinkHasValue && this.productNameHasValue;
         }
 
-        private void raiseAlert(string message)
+        private void RaiseAlert(string message)
         {
             MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        private void addRowButton_Click(object sender, EventArgs e)
+        private void AddRowButton_Click(object sender, EventArgs e)
         {
             ListViewItem item = new ListViewItem(this.imageLinkValue);
             item.SubItems.Add(this.rowHeaderValue);
             item.SubItems.Add(this.descriptionValue);
             rowsList.Items.Add(item);
-            generateHtmlButton.Enabled = true;
+            this.SetGenerateHtmlButtonState();
         }
 
         private void RemoveSelectedButton_Click(object sender, EventArgs e)
@@ -148,12 +148,34 @@ namespace GetAccessHTMLGenerator
             {
                 this.rowsList.Items[index].Remove();
             }
-            generateHtmlButton.Enabled = rowsList.Items.Count > 0;
+            this.SetGenerateHtmlButtonState();
         }
 
-        private void rowsList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void SetGenerateHtmlButtonState()
+        {
+            this.generateHtmlButton.Enabled = this.rowsList.Items.Count > 0;
+        }
+
+        private void RowsList_Leave(object sender, EventArgs e)
         {
             
+            this.removeSelectedButton.Enabled = this.FindFocusedControl(this) == this.removeSelectedButton;
+        }
+
+        private void RowsList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            this.removeSelectedButton.Enabled = e.IsSelected;
+        }
+
+        private Control FindFocusedControl(Control control)
+        {
+            var container = control as IContainerControl;
+            while (container != null)
+            {
+                control = container.ActiveControl;
+                container = control as IContainerControl;
+            }
+            return control;
         }
     }
 }

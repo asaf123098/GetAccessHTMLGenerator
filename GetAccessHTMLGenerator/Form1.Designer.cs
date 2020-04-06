@@ -126,7 +126,8 @@
             this.rowsList.TabIndex = 8;
             this.rowsList.UseCompatibleStateImageBehavior = false;
             this.rowsList.View = System.Windows.Forms.View.Details;
-            this.rowsList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.rowsList_ItemSelectionChanged);
+            this.rowsList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.RowsList_ItemSelectionChanged);
+            this.rowsList.Leave += new System.EventHandler(this.RowsList_Leave);
             // 
             // columnHeader1
             // 
@@ -153,11 +154,12 @@
             this.addRowButton.TabIndex = 9;
             this.addRowButton.Text = "Add Row";
             this.addRowButton.UseVisualStyleBackColor = true;
-            this.addRowButton.Click += new System.EventHandler(this.addRowButton_Click);
+            this.addRowButton.Click += new System.EventHandler(this.AddRowButton_Click);
             // 
             // removeSelectedButton
             // 
             this.removeSelectedButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.removeSelectedButton.Enabled = false;
             this.removeSelectedButton.Location = new System.Drawing.Point(484, 157);
             this.removeSelectedButton.Name = "removeSelectedButton";
             this.removeSelectedButton.Size = new System.Drawing.Size(114, 23);
