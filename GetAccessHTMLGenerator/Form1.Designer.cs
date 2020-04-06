@@ -63,7 +63,7 @@
             this.productName.Name = "productName";
             this.productName.Size = new System.Drawing.Size(305, 20);
             this.productName.TabIndex = 1;
-            this.productName.TextChanged += new System.EventHandler(this.productName_TextChanged);
+            this.productName.TextChanged += new System.EventHandler(this.ProductName_TextChanged);
             // 
             // description
             // 
@@ -75,7 +75,7 @@
             this.description.Name = "description";
             this.description.Size = new System.Drawing.Size(305, 105);
             this.description.TabIndex = 5;
-            this.description.TextChanged += new System.EventHandler(this.description_TextChanged);
+            this.description.TextChanged += new System.EventHandler(this.Description_TextChanged);
             // 
             // label3
             // 
@@ -176,7 +176,7 @@
             this.imageLink.Name = "imageLink";
             this.imageLink.Size = new System.Drawing.Size(305, 20);
             this.imageLink.TabIndex = 12;
-            this.imageLink.TextChanged += new System.EventHandler(this.imageLink_TextChanged);
+            this.imageLink.TextChanged += new System.EventHandler(this.ImageLink_TextChanged);
             // 
             // label2
             // 
