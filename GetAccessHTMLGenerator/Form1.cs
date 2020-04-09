@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -20,7 +20,8 @@ namespace GetAccessHTMLGenerator
         private HtmlAgilityPack.HtmlDocument document;
         private const string HtmlFileName = @"html.html";
 
-        private const string rowXpath = "//div[contains(@class, 'row')]";
+        private const string rowXpath = "//div[@class='rows_container']/div[contains(@class, 'row')]";
+        HtmlNode rowsContainer;
 
 
         public Form1()
@@ -34,6 +35,7 @@ namespace GetAccessHTMLGenerator
             List<string[]> rows = this.ParseRowsFromHtml();
             this.AddItemsToList(rows);
             this.SetGenerateHtmlButtonState();
+            this.rowsContainer = this.FindNodes("//div[contains(@class, 'rows_container')]").First();
         }
 
         private void generateHtmlButton_Click(object sender, EventArgs e)
@@ -60,19 +62,22 @@ namespace GetAccessHTMLGenerator
         {
             List<string[]> rows = new List<string[]> { };
 
-            HtmlNodeCollection nodes = this.FindNodes(rowXpath);
-            HtmlNodeCollection images = this.FindNodes($"{rowXpath}/img");
-            HtmlNodeCollection headers = this.FindNodes($"{rowXpath}//span[contains(@class, 'header')]");
-            HtmlNodeCollection paragraphs = this.FindNodes($"{rowXpath}//span[contains(@class, 'paragraph')]");
+            HtmlNodeCollection nodes = this.FindNodes(rowXpath, false);
+            HtmlNodeCollection images = this.FindNodes($"{rowXpath}/img", false);
+            HtmlNodeCollection headers = this.FindNodes($"{rowXpath}//span[contains(@class, 'header')]", false);
+            HtmlNodeCollection descriptions = this.FindNodes($"{rowXpath}//span[contains(@class, 'paragraph')]", false);
 
-            foreach (int i in Enumerable.Range(0, nodes.Count))
+            if (!(nodes == null))
             {
-                string imageLink = images[i].Attributes.First().Value;
-                string header = headers[i].InnerText;
-                string paragraph = paragraphs[i].InnerText;
+                foreach (int i in Enumerable.Range(0, nodes.Count))
+                {
+                    string imageLink = images[i].Attributes.First().Value;
+                    string header = headers[i].InnerText;
+                    string description = descriptions[i].InnerText;
 
 
-                rows.Add(new string[] { imageLink, header, this.NormalizeString(paragraph) });
+                    rows.Add(new string[] { imageLink, header, this.NormalizeString(description) });
+                }
             }
 
             return rows;
@@ -91,23 +96,50 @@ namespace GetAccessHTMLGenerator
         {
             ListViewItem item = new ListViewItem(ImageLink);
             item.SubItems.Add(RowHeader);
-            item.SubItems.Add(Description);
+            item.SubItems.Add(Description.Replace("\r\n", "\r\n "));
             this.rowsList.Items.Add(item);
         }
 
         private void UpdateHtml()
         {
-            HtmlNode productNameTag = this.FindNodes("//h2[@id='productName']").First();
-            productNameTag.InnerHtml = this.rowHeaderValue;
+            this.rowsContainer.RemoveAllChildren();
 
-            HtmlNode imgTag = this.FindNodes("//img[@id='productImage']").First();
-            imgTag.SetAttributeValue("src", this.imageLinkValue);
+            ListView.ListViewItemCollection rows = this.rowsList.Items;
 
-            HtmlNode descriptionTag = this.FindNodes("//p[@id='description']").First();
-            descriptionTag.InnerHtml = this.descriptionValue.Replace("\r\n", "<br>\r\n");
+            foreach (int i in Enumerable.Range(0, this.rowsList.Items.Count))
+            {
+                string color = i % 2 == 0 ? "gray" : "white";
+                ListViewItem row = rows[i];
+                string imageLink = row.SubItems[0].Text;
+                string header = row.SubItems[1].Text;
+                string paragraph = row.SubItems[2].Text;
+                paragraph = paragraph.Replace("\r\n", "<br>\r\n");
 
+                this.rowsContainer.AppendChild(this.GetNewRowElement(color, imageLink, header, paragraph));
+
+            }
             this.document.Save(HtmlFileName);
         }
+
+        private HtmlNode GetNewRowElement(string rowColor, string imageLink, string header, string paragraph)
+        {
+            HtmlNode row = HtmlNode.CreateNode($"<div class='{rowColor} row'></div>");
+            HtmlNode img = HtmlNode.CreateNode($"<img src='{imageLink}'>");
+            HtmlNode textContainer = HtmlNode.CreateNode($"<div class='text_container'></div>");
+            HtmlNode headerNode = HtmlNode.CreateNode($"<span class='header'>{header}</span>");
+            HtmlNode br = HtmlNode.CreateNode($"<br>");
+            HtmlNode paragraphNode = HtmlNode.CreateNode($"<span class='paragraph'>{paragraph}</span>");
+
+            row.AppendChild(img);
+
+            textContainer.AppendChild(headerNode);
+            textContainer.AppendChild(br);
+            textContainer.AppendChild(paragraphNode);
+            row.AppendChild(textContainer);
+
+            return row;
+        }
+
 
         private void CopyHTMLToClipboard()
         { 
@@ -115,25 +147,26 @@ namespace GetAccessHTMLGenerator
             Clipboard.SetText(this.NormalizeString(newHtml));
         }
 
-        private HtmlNodeCollection FindNodes(string xpath)
+        private HtmlNodeCollection FindNodes(string xpath, bool raiseException = true)
         {
             HtmlNodeCollection nodes = this.document.DocumentNode.SelectNodes(xpath);
 
             if (nodes != null)
                 return nodes;
-            else
-            {
+            else if (raiseException)
+            { 
                 this.RaiseAlert($"Failed to find xpath: '{xpath}'");
                 Application.Exit();
-                return null;
             }
-
+            return null;
         }
 
-        private string NormalizeString(string stringToNormalize)
+        private string NormalizeString(string stringToNormalize, bool deleteNewLines = false)
         {
             stringToNormalize = stringToNormalize.Replace("\t", "");
             stringToNormalize = stringToNormalize.Replace("    ", "");
+            if (deleteNewLines)
+                stringToNormalize = stringToNormalize.Replace("\r\n", "");
             return stringToNormalize;
         }
         private void ProductName_TextChanged(object sender, EventArgs e)
@@ -186,10 +219,11 @@ namespace GetAccessHTMLGenerator
         }
 
         private void RemoveSelectedButton_Click(object sender, EventArgs e)
-        { 
-            foreach (int index in this.rowsList.SelectedIndices)
+        {
+            ListView.SelectedIndexCollection selected_indices = this.rowsList.SelectedIndices;
+            while (selected_indices.Count > 0)
             {
-                this.rowsList.Items[index].Remove();
+                this.rowsList.Items[selected_indices[0]].Remove();
             }
             this.SetGenerateHtmlButtonState();
         }
