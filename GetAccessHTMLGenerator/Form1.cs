@@ -254,5 +254,14 @@ namespace GetAccessHTMLGenerator
             }
             return control;
         }
+
+        private void rowsList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ListViewItem item = this.rowsList.GetItemAt(e.X, e.Y);
+            this.imageLink.Text = item.Text;
+            this.productName.Text = item.SubItems[1].Text;
+            this.description.Text = item.SubItems[2].Text;
+        }
+
     }
 }

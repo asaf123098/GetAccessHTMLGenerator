@@ -128,6 +128,7 @@
             this.rowsList.View = System.Windows.Forms.View.Details;
             this.rowsList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.RowsList_ItemSelectionChanged);
             this.rowsList.Leave += new System.EventHandler(this.RowsList_Leave);
+            this.rowsList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.rowsList_MouseDoubleClick);
             // 
             // columnHeader1
             // 
