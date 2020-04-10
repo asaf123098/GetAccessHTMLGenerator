@@ -216,6 +216,10 @@ namespace GetAccessHTMLGenerator
         {
             this.AddItemToList(this.imageLinkValue, this.rowHeaderValue, this.descriptionValue);
             this.SetGenerateHtmlButtonState();
+
+            this.imageLink.ResetText();
+            this.productName.ResetText();
+            this.description.ResetText();
         }
 
         private void RemoveSelectedButton_Click(object sender, EventArgs e)
