@@ -1,0 +1,426 @@
+<!-- <!DOCTYPE html> -->
+<html>
+<br style="display: none;">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    img.big_image {
+        display: block;
+        margin: 10% auto;
+        width: 40%;
+    }
+
+    div.row {
+        position: relative;
+        height: auto;
+        padding: 5%;
+    }
+
+    div.white.row::after {
+        content: "";
+        clear: right;
+        display: table;
+    }
+
+    div.gray.row {
+        background-color: #e1e1e1;
+    }
+
+    div.row>img {
+        border-radius: 50%;
+        height: 13%;
+        vertical-align: middle;
+
+        margin-right: 5%;
+    }
+
+    div.white.row>img {
+        float: right;
+    }
+
+    .text_container {
+        display: inline-block;
+        vertical-align: middle;
+        width: 55%;
+    }
+
+    span.header {
+        font-family: 'Segoe UI';
+        font-weight: bolder;
+        font-size: 0.7em;
+    }
+
+    span.paragraph {
+        font-family: 'Times New Roman';
+        font-size: 0.5em;
+    }
+
+    /* Warranty and returns */
+    
+    div#warranty-and-returns {
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    div#warranty-and-returns > span {
+        margin: 2%;
+        padding: 3%;
+        
+        color: #4197fa;
+        border: #4197fa solid 1.2px;
+
+        border-radius: 15px;
+        display: block;
+    }
+
+    div#warranty-and-returns > span > ul {
+        color: #004ba0;
+        display: none;
+        text-align: left;
+        font-size: 1em;
+        font-weight: normal;
+    }
+    div#warranty-and-returns > span > ul > li
+    { 
+        margin: 3% 0;
+    }
+
+    div#warranty-and-returns > .warranty:hover > ul
+    {
+        display: block;
+    }
+    
+    div#warranty-and-returns > .returns:hover > ul
+    { 
+        display: block;
+    }
+
+    /* Circles area - GetAccess Intro */
+
+    #circles_container {
+        text-align: center;
+        margin: 15% auto;
+    }
+
+    div.vertical_circles_container {
+        margin: 0.5vw;
+        display: inline-block;
+    }
+
+    .circle {
+        padding: 7%;
+        border-radius: 50%;
+
+        color: white;
+        overflow: hidden;
+        text-align: center;
+
+        margin-top: -20%;
+        margin-bottom: -20%;
+
+        width: 28vw;
+        height: 28vw;
+
+        position: relative;
+    }
+
+    .only_header {
+        font-size: 4vw;
+        font-family: 'Segoe UI';
+        font-weight: bolder;
+
+        text-shadow: 2px 3px 7px rgb(72, 72, 72);
+
+        position: relative;
+        top: 35%;
+    }
+
+    .circle>.header {
+        font-size: 3.5vw;
+        font-family: 'Segoe UI';
+        font-weight: bolder;
+        text-shadow: 2px 3px 7px rgb(72, 72, 72);
+
+        position: relative;
+        top: 10%;
+    }
+
+    .circle>.paragraph {
+        font-size: 2.5vw;
+        font-family: Arial;
+        font-style: italic;
+        text-shadow: 2px 2px 5px rgb(72, 72, 72);
+
+        position: relative;
+        top: -10%;
+    }
+
+    @media only screen and (min-width: 768px) {
+        div.row>img {
+            height: 30%;
+        }
+
+        .text_container {
+            max-width: 50%;
+        }
+
+        span.header {
+            font-size: 1.5em;
+        }
+
+        span.paragraph {
+            font-size: 1.1em;
+        }
+
+        /* Warranty and returns */
+    
+        div#warranty-and-returns {
+            width: 50%;
+        }
+
+        div#warranty-and-returns > span {
+            margin: 1%;
+            padding: 1%;
+            
+            border: #4197fa solid 1.5px;
+        }
+
+        div#warranty-and-returns > span > ul {
+            font-size: 1em;
+        }
+
+        /* Circles area - GetAccess Intro */
+
+        #circles_container {
+            margin: 10% auto;
+        }
+
+        .circle {
+            padding: 7%;
+
+            margin-top: -20%;
+            margin-bottom: -20%;
+
+            width: 19vw;
+            height: 19vw;
+        }
+
+        .only_header {
+            font-size: 2.7vw;
+        }
+
+        .circle>.header {
+            font-size: 2.3vw;
+
+            position: relative;
+            top: 10%;
+        }
+
+        .circle>.paragraph {
+            font-size: 1.6vw;
+            position: relative;
+            top: 3%;
+        }
+    }
+</style>
+
+<body>
+    <img src="https://i.imgur.com/Ao2bZbb.png" class="big_image">
+
+    <div class="rows_container">
+        <div class='gray row'>
+            <img src='https://i.ebayimg.com/00/s/MTAwMFgxMDAw/z/2lEAAOSw6Bpeje68/$_57.JPG?set_id=8800005007'>
+            <div class='text_container'>
+                <span class='header'>Features:</span>
+                <br>
+                <span class='paragraph'>- Restore soft and smooth skin<br>
+                    <br>
+                    - Exfoliate dead skin cells to reveal radiant and youthful skin<br>
+                    - Reduce and erase fine lines & blackheads<br>
+                    - Compact and light-weight<br>
+                    - 2 settings: "Low" for daily cleaning, "High" for exfoliation
+                </span>
+            </div>
+        </div>
+        <div class='white row'>
+            <img src='https://i.ebayimg.com/00/s/MTAwMFgxMDAw/z/2lEAAOSw6Bpeje68/$_57.JPG?set_id=8800005007'>
+            <div class='text_container'>
+                <span class='header'>Includes:</span>
+                <br>
+                <span class='paragraph'>- Main unit<br>
+                    - 4 x Attachments: soft brush, Rolling massager, make-up sponge, Latex sponge-soft.
+                </span>
+            </div>
+        </div>
+        <div class='gray row'>
+            <img src='https://i.ebayimg.com/00/s/MTAwMFgxMDAw/z/2lEAAOSw6Bpeje68/$_57.JPG?set_id=8800005007'>
+            <div class='text_container'>
+                <span class='header'>Specifications:</span>
+                <br>
+                <span class='paragraph'>- Powered By
+                    : 2 "AA" batteries (NOT INCLUDED)<br>
+                    - Dimensions: 130 x 70 x 48 mm<br>
+                    - Operation condition: Temperature 10-40'C (50-104'F), Humidity 30%-90%<br>
+                    - This product is not waterproof and can not be used in the shower!
+                </span>
+            </div>
+        </div>
+        <div class='white row'>
+            <img src='https://i.ebayimg.com/00/s/MTAwMFgxMDAw/z/2lEAAOSw6Bpeje68/$_57.JPG?set_id=8800005007'>
+            <div class='text_container'>
+                <span class='header'>Specifications:</span>
+                <br>
+                <span class='paragraph'>- Powered
+                    By : 2 "AA" batteries (NOT INCLUDED)<br>
+                    - Dimensions: 130 x 70 x 48 mm<br>
+                    - Operation condition: Temperature 10-40'C (50-104'F), Humidity 30%-90%<br>
+                    - This product is not waterproof and can not be used in the shower!
+                </span>
+            </div>
+        </div>
+    </div>
+    <hr style="width: 30%; border: solid 1px;margin: 3% auto;">
+
+    <div id='warranty-and-returns'>
+        <span class='warranty header'>See Warranty
+            <ul>
+                <li>In the event that your watch requires repair or servicing, send the watch back to us and we will repair
+                it and return to you. You pay only for the shipping charges.</li>
+                <li>For watches shipped with manufacturer warranty cards:
+                    <ul>
+                        <li>If, for any reason your local service center cannot repair the watch, send it to us for servicing. In such
+                        cases, the two-year extended warranty provided by Creation Watches applies.</li>
+
+                        <li>Send us an email and we’ll analyse your issue. If repair is needed, we’ll ask you to take the watch to
+                        the service center or to send the watch to us; then we’ll service it and return it to you.</li>
+                    </ul>
+                </li>
+                <li>What's covered or not covered by your warranty?
+                    <ul>
+                        <li>Your warranty covers the internal mechanism of the watch.</li>
+                    </ul>
+                </li>
+                <li>It does not cover external physical damage, including:    
+                    <ul>
+                        <li>Water/moisture damage</li>
+                        <li>Damage to the watch case or glass</li>
+                        <li>Missing stones or gems (e.g., from the watch face)</li>
+                        <li>Damage to the watch bracelet/band or straps</li>
+                        <li>Damage to the crown/stem or finishes</li>
+                        <li>Damage to clasps/buckles</li>
+                        <li>Signs of wear and tear to the watch from normal daily use</li>
+                        <li>Damage to the battery</li>
+                    </ul>
+                </li>
+                <li>The warranty does not cover damage under conditions that are not in line with specified manufacturer
+                guidelines, e.g. defects caused by outside force, improper use, or that exceed water resistance
+                guidelines.</li>
+                <li>Also, note that damage as a result of having the watch serviced by a third party voids our warranty.
+                This is generally easy for our service center to identify and, in such cases, repairs will be charged.
+                </li>
+            </ul>
+        </span>
+        <span class='returns header'>See Returns
+            <ul>
+                <li>We accept returns and will refund you for your purchase under the conditions outlined below.</li>
+                <li>To be eligible for return or exchange, all watches must be sent back to us within the first 30 days
+                following the receipt of the watch and must meet the following conditions:
+                    <ul>
+                        <li>Watch in original working condition with no accidental damage caused by you</li>
+                        <li>No scratches on the watch case, glass or watch strap due to usage</li>
+                        <li>No resizing, altering of bracelet</li>
+                    </ul>
+                </li>
+                <li>If you receive a watch which is damaged in transit or not working on arrival, it is still eligible for
+                return. Please contact us immediately if you received a defective item.</li>
+                
+                <li>Once you return the watch, you can opt for either a refund of the purchase price or an exchange with another
+                watch with the price difference topped up or refunded.</li>
+                <li>We will issue a refund within 24 hours of receipt of the return package.</li>
+
+                <li>Return shipping charges are the responsibility of the customer. We are not responsible for lost or damaged packages.</li>
+            </ul>
+        </span>
+    </div>
+    <img src="https://i.imgur.com/QYChVqu.png" class="big_image">
+
+    <h1 style="text-align: center; font-size: 5vmin;">GetAccess To An Extraordinary Life</h1>
+    <hr style="width: 30%; border: solid 1px;">
+
+    <div id="circles_container">
+        <div class="vertical_circles_container">
+            <div class="circle" style="background-color: #ff4569">
+                <div class="only_header">Productivity</div>
+            </div>
+            <div class="circle" style="background-color: #fb3259">
+                <div class="header">Organization</div>
+                <br>
+                <div class="paragraph">
+                    being organized<br>
+                    equls being more<br>
+                    productive!
+                </div>
+            </div>
+            <div class="circle" style="background-color: #f3254d">
+                <div class="header">Time</div>
+                <br>
+                <div class="paragraph">
+                    plan your time weekly.
+                    If your time doesn’t
+                    have a destination, it
+                    slips away
+                </div>
+            </div>
+        </div>
+        <div class="vertical_circles_container">
+            <div class="circle" style="background-color: #a4e3ff">
+                <div class="only_header">Health</div>
+            </div>
+            <div class="circle" style="background-color: #87d9fe">
+                <div class="header">Nutrition</div>
+                <br>
+                <div class="paragraph">We are what we eat!</div>
+            </div>
+            <div class="circle" style="background-color: #6bcffc">
+                <div class="header">Sport</div>
+                <br>
+                <div class="paragraph">
+                    every physical<br>
+                    activity counts!
+                </div>
+            </div>
+        </div>
+        <div class="vertical_circles_container">
+            <div class="circle" style="background-color: #fed168">
+                <div class="only_header">Calmness</div>
+            </div>
+            <div class="circle" style="background-color: #f8c859">
+                <div class="header">Gratefulness</div>
+                <br>
+                <div class="paragraph">Try and see the glass half full.</div>
+            </div>
+            <div class="circle" style="background-color: #f1bf4a;">
+                <div class="header">Rest</div>
+                <br>
+                <div class="paragraph">
+                    Take a moment - Start small, put a reminder to<br>
+                    <strong>STOP AND RESTART</strong><br>
+                    your day.
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1 style="text-align: center; font-size: 5vmin;">Our Goal</h1>
+    <hr style="width: 10%; border: solid 1px;">
+    <p style="text-align: center; font-size: 4vmin;">
+        GetAccess&apos;s goal is to give you access to<br>
+        products that can take you to the next level in<br>
+        <b>Your Life.</b>
+    </p>
+</body>
+
+</html>
