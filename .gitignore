@@ -1,6 +1,7 @@
 # Custom
 
-DescriptionGenerator/
+DescriptionGenerator_Debug/
+DescriptionGenerator_Release/
 
 # User-specific files
 *.rsuser
