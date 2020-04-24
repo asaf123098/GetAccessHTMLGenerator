@@ -12,4 +12,4 @@ mkdir %targetDirPath%
 
 copy /y %exePath% %targetDirPath%\%targetFileName%
 copy /y %htmlAgilityDllPath% %targetDirPath%\HtmlAgilityPack.dll
-xcopy /y /i /e  "..\DescriptionHtmlTemplates" %targetDirPath%\DescriptionHtmlTemplates
+c:\windows\system32\xcopy /y /i /e  "..\DescriptionHtmlTemplates" %targetDirPath%\DescriptionHtmlTemplates
