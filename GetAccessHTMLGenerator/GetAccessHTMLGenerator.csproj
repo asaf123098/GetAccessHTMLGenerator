@@ -102,6 +102,8 @@ set exePath="$(TargetPath)"
 copy /y %25exePath%25 %25destDir%25\$(TargetFileName)
 
 copy /y "$(TargetDir)HtmlAgilityPack.dll" %25destDir%25\HtmlAgilityPack.dll
+copy /y "$(TargetDir)GeneralUtilities.dll" %25destDir%25\GeneralUtilities.dll
+
 xcopy /y /i /e  "$(SolutionDir)DescriptionHtmlTemplates" %25destDir%25\DescriptionHtmlTemplates</PostBuildEvent>
   </PropertyGroup>
 </Project>
