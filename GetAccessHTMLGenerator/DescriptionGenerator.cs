@@ -1,37 +1,40 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using HtmlAgilityPack;
+using System.Runtime.CompilerServices;
 
 namespace GetAccessHTMLGenerator
 {
     public partial class DescriptionGenerator : Form
     {
-
-        private bool productNameHasValue = false;
-        private bool imageLinkHasValue = false;
-        private bool descriptionHasValue = false;
-
-        private string rowHeaderValue;
-        private string imageLinkValue;
-        private string descriptionValue;
-
+        private HtmlNode rowsContainer;
         private HtmlAgilityPack.HtmlDocument document;
-        private const string HtmlFileName = @"description.html";
-
+        
+        private const string htmlTemplatesDirPath = @".\DescriptionHtmlTemplates";
+        private readonly string htmlFilePath = Path.Combine(htmlTemplatesDirPath, "Description.html");
+        private readonly string warrantyAndReturnsTemplatesPath = Path.Combine(htmlTemplatesDirPath, "WarrantyAndRefundTemplates");
+        
         private const string rowXpath = "//div[@class='rows_container']/div[contains(@class, 'row')]";
-        HtmlNode rowsContainer;
 
 
         public DescriptionGenerator()
         {
             InitializeComponent();
+            InitSuppliersWarranties();
+            ParseHTML();
         }
 
-        private void DescriptionGenerator_Load(object sender, EventArgs e)
+        private void InitSuppliersWarranties()
         {
-            this.ParseHTML();
+            string [] dirNames = Directory.GetDirectories(this.warrantyAndReturnsTemplatesPath);
+            foreach (string dirPath in dirNames)
+            {
+                string dirName = Path.GetFileName(dirPath);
+                this.suppliersWarranties.Items.Add(dirName);
+            }
         }
 
         private void ParseHTML()
@@ -39,32 +42,32 @@ namespace GetAccessHTMLGenerator
             try
             {
                 this.document = new HtmlAgilityPack.HtmlDocument();
-                this.document.Load(HtmlFileName);
-                this.ShouldShow();           
+                this.document.Load(htmlFilePath);
+                FormShouldShow();           
             }
-            catch (System.IO.FileNotFoundException)
+            catch (FileNotFoundException)
             {
-                this.RaiseAlert($"Failed to find '{HtmlFileName}' in the directory!!!");
-                this.Close();
+                RaiseAlert($"Failed to find '{htmlFilePath}' in the directory!!!");
+                Close();
             }
         }
 
-        private void ShouldShow()
+        private void FormShouldShow()
         {
-            List<string[]> rows = this.ParseRowsFromHtml();
-            this.AddItemsToList(rows);
-            this.SetGenerateHtmlButtonState();
-            this.rowsContainer = this.FindNodes("//div[contains(@class, 'rows_container')]").First();
+            List<string[]> rows = ParseRowsFromHtml();
+            AddItemsToList(rows);
+            SetGenerateHtmlButtonState();
+            this.rowsContainer = FindNodes("//div[contains(@class, 'rows_container')]").First();
         }
 
         private List<string[]> ParseRowsFromHtml()
         {
             List<string[]> rows = new List<string[]> { };
 
-            HtmlNodeCollection nodes = this.FindNodes(rowXpath, false);
-            HtmlNodeCollection images = this.FindNodes($"{rowXpath}/img", false);
-            HtmlNodeCollection headers = this.FindNodes($"{rowXpath}//span[contains(@class, 'header')]", false);
-            HtmlNodeCollection descriptions = this.FindNodes($"{rowXpath}//span[contains(@class, 'paragraph')]", false);
+            HtmlNodeCollection nodes = FindNodes(rowXpath, false);
+            HtmlNodeCollection images = FindNodes($"{rowXpath}/img", false);
+            HtmlNodeCollection headers = FindNodes($"{rowXpath}//span[contains(@class, 'header')]", false);
+            HtmlNodeCollection descriptions = FindNodes($"{rowXpath}//span[contains(@class, 'paragraph')]", false);
 
             if (!(nodes == null))
             {
@@ -75,7 +78,7 @@ namespace GetAccessHTMLGenerator
                     string description = descriptions[i].InnerText;
 
 
-                    rows.Add(new string[] { imageLink, header, this.NormalizeString(description) });
+                    rows.Add(new string[] { imageLink, header, NormalizeString(description) });
                 }
             }
 
@@ -88,7 +91,7 @@ namespace GetAccessHTMLGenerator
             {
                 string[] detailes = rows[i];
 
-                this.AddItemToList(detailes[0], detailes[1], detailes[2]);
+                AddItemToList(detailes[0], detailes[1], detailes[2]);
             }
         }
         private void AddItemToList(string ImageLink, string RowHeader, string Description)
@@ -101,11 +104,31 @@ namespace GetAccessHTMLGenerator
 
         private void generateHtmlButton_Click(object sender, EventArgs e)
         {
-            this.UpdateHtml();
-            this.CopyHTMLToClipboard();
+            UpdateHtml();
+            CopyHTMLToClipboard();
         }
 
         private void UpdateHtml()
+        {
+            bool addWrrantyAndReturns = AddWarrantyAndReturnsToHtml();
+            DialogResult result;
+
+            if (!addWrrantyAndReturns)
+            {
+                result = MessageBox.Show(
+                    text: "Are you sure you don't want to add a warranty and returns policy?",
+                    caption: "Warning!",
+                    buttons: MessageBoxButtons.YesNo,
+                    icon: MessageBoxIcon.Warning,
+                    defaultButton: MessageBoxDefaultButton.Button2);
+                if (result == DialogResult.No)
+                    return;                    
+            }
+            AddRowsToHtml();
+            this.document.Save(htmlFilePath);
+        }
+
+        private void AddRowsToHtml()
         {
             this.rowsContainer.RemoveAllChildren();
 
@@ -123,7 +146,6 @@ namespace GetAccessHTMLGenerator
                 this.rowsContainer.AppendChild(this.GetNewRowElement(color, imageLink, header, paragraph));
 
             }
-            this.document.Save(HtmlFileName);
         }
 
         private HtmlNode GetNewRowElement(string rowColor, string imageLink, string header, string paragraph)
@@ -145,10 +167,52 @@ namespace GetAccessHTMLGenerator
             return row;
         }
 
+        private bool AddWarrantyAndReturnsToHtml()
+        {
+            HtmlNode warrantyAndReturnsDiv = this.FindNodes("//div[@id='warranty-and-returns']", raiseException: false)[0];
+            CheckedListBox.CheckedItemCollection checkedSupplier = this.suppliersWarranties.CheckedItems;
+            if (checkedSupplier.Count == 0)
+            {
+                warrantyAndReturnsDiv.SetAttributeValue(name: "style", value: "display:none");
+                return false;
+            }
+            else
+            {
+                warrantyAndReturnsDiv.SetAttributeValue(name: "style", value: "display:block");
+                string supplierName = checkedSupplier[0].ToString();
+                
+                HtmlNode warrantySpan = FindNodes("//span[contains(@class, 'warranty') and contains(@class, 'header')]")[0];
+                warrantySpan.AppendChild(GetSupplierWarranty(supplierName));
+                
+                HtmlNode returnsSpan = FindNodes("//span[contains(@class, 'returns') and contains(@class, 'header')]")[0];
+                returnsSpan.AppendChild(GetSupplierReturns(supplierName));
+
+                return true;
+            }
+        }
+
+        private HtmlNode GetSupplierWarranty(string supplierName)
+        {
+            string warrantyTemplatePath = Path.Combine(this.warrantyAndReturnsTemplatesPath, supplierName, "Warranty.html");
+            HtmlAgilityPack.HtmlDocument warrantyDocument = new HtmlAgilityPack.HtmlDocument();
+            warrantyDocument.Load(warrantyTemplatePath);
+
+            return HtmlNode.CreateNode(warrantyDocument.Text);
+        }
+
+        private HtmlNode GetSupplierReturns(string supplierName)
+        {
+            string returnsTemplatePath = Path.Combine(this.warrantyAndReturnsTemplatesPath, supplierName, "Returns.html");
+            HtmlAgilityPack.HtmlDocument returnsDocument = new HtmlAgilityPack.HtmlDocument();
+            returnsDocument.Load(returnsTemplatePath);
+
+            return HtmlNode.CreateNode(returnsDocument.Text);
+        }
+
         private void CopyHTMLToClipboard()
         { 
             string newHtml = this.document.DocumentNode.WriteTo();
-            Clipboard.SetText(this.NormalizeString(newHtml));
+            Clipboard.SetText(NormalizeString(newHtml));
         }
 
         private HtmlNodeCollection FindNodes(string xpath, bool raiseException = true)
@@ -159,7 +223,7 @@ namespace GetAccessHTMLGenerator
                 return nodes;
             else if (raiseException)
             { 
-                this.RaiseAlert($"Failed to find xpath: '{xpath}'");
+                RaiseAlert($"Failed to find xpath: '{xpath}'");
                 Application.Exit();
             }
             return null;
@@ -174,18 +238,18 @@ namespace GetAccessHTMLGenerator
             return stringToNormalize;
         }
 
-        private void ProductName_TextChanged(object sender, EventArgs e) => this.SetAddRowButtonState();
+        private void ProductName_TextChanged(object sender, EventArgs e) => SetAddRowButtonState();
 
-        private void ImageLink_TextChanged(object sender, EventArgs e) => this.SetAddRowButtonState();
+        private void ImageLink_TextChanged(object sender, EventArgs e) => SetAddRowButtonState();
 
-        private void Description_TextChanged(object sender, EventArgs e) => this.SetAddRowButtonState();
+        private void Description_TextChanged(object sender, EventArgs e) => SetAddRowButtonState();
 
         private void SetAddRowButtonState()
         {
             addRowButton.Enabled = 
                 !String.IsNullOrEmpty(this.description.Text) && 
                 !String.IsNullOrEmpty(this.imageLink.Text) &&
-                !String.IsNullOrEmpty(this.productName.Text);
+                !String.IsNullOrEmpty(this.lineHeader.Text);
         }
 
         private void RaiseAlert(string message)
@@ -195,11 +259,11 @@ namespace GetAccessHTMLGenerator
 
         private void AddRowButton_Click(object sender, EventArgs e)
         {
-            this.AddItemToList(this.imageLinkValue, this.rowHeaderValue, this.descriptionValue);
-            this.SetGenerateHtmlButtonState();
+            AddItemToList(this.imageLink.Text, this.lineHeader.Text, this.description.Text);
+            SetGenerateHtmlButtonState();
 
             this.imageLink.ResetText();
-            this.productName.ResetText();
+            this.lineHeader.ResetText();
             this.description.ResetText();
         }
 
@@ -223,7 +287,7 @@ namespace GetAccessHTMLGenerator
                 this.rowsList.Items.Remove(focusedItem);
             }
             
-            this.SetGenerateHtmlButtonState();
+            SetGenerateHtmlButtonState();
         }
 
         private void SetGenerateHtmlButtonState()
@@ -235,7 +299,7 @@ namespace GetAccessHTMLGenerator
         {
             ListViewItem item = this.rowsList.GetItemAt(e.X, e.Y);
             this.imageLink.Text = item.Text;
-            this.productName.Text = item.SubItems[1].Text;
+            this.lineHeader.Text = item.SubItems[1].Text;
             this.description.Text = item.SubItems[2].Text;
         }
     }

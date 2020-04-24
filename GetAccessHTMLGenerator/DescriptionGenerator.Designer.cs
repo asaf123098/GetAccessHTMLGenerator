@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DescriptionGenerator));
             this.label1 = new System.Windows.Forms.Label();
-            this.productName = new System.Windows.Forms.TextBox();
+            this.lineHeader = new System.Windows.Forms.TextBox();
             this.description = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.generateHtmlButton = new System.Windows.Forms.Button();
@@ -46,7 +46,7 @@
             this.rowsListContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label4 = new System.Windows.Forms.Label();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.suppliersWarranties = new System.Windows.Forms.CheckedListBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.rowsListContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -62,13 +62,13 @@
             // 
             // productName
             // 
-            this.productName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lineHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.productName.Location = new System.Drawing.Point(115, 45);
-            this.productName.Name = "productName";
-            this.productName.Size = new System.Drawing.Size(331, 20);
-            this.productName.TabIndex = 1;
-            this.productName.TextChanged += new System.EventHandler(this.ProductName_TextChanged);
+            this.lineHeader.Location = new System.Drawing.Point(115, 45);
+            this.lineHeader.Name = "productName";
+            this.lineHeader.Size = new System.Drawing.Size(331, 20);
+            this.lineHeader.TabIndex = 1;
+            this.lineHeader.TextChanged += new System.EventHandler(this.ProductName_TextChanged);
             // 
             // description
             // 
@@ -202,20 +202,20 @@
             this.label4.TabIndex = 13;
             this.label4.Text = "Warranty And Returns:";
             // 
-            // checkedListBox1
+            // suppliersWarranties
             // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(115, 211);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(331, 34);
-            this.checkedListBox1.TabIndex = 14;
+            this.suppliersWarranties.FormattingEnabled = true;
+            this.suppliersWarranties.Location = new System.Drawing.Point(115, 211);
+            this.suppliersWarranties.Name = "suppliersWarranties";
+            this.suppliersWarranties.Size = new System.Drawing.Size(331, 34);
+            this.suppliersWarranties.TabIndex = 14;
             // 
             // DescriptionGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(678, 491);
-            this.Controls.Add(this.checkedListBox1);
+            this.Controls.Add(this.suppliersWarranties);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.imageLink);
             this.Controls.Add(this.label2);
@@ -225,13 +225,12 @@
             this.Controls.Add(this.generateHtmlButton);
             this.Controls.Add(this.description);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.productName);
+            this.Controls.Add(this.lineHeader);
             this.Controls.Add(this.label1);
             this.MinimumSize = new System.Drawing.Size(645, 459);
             this.Name = "DescriptionGenerator";
             this.Padding = new System.Windows.Forms.Padding(0, 0, 10, 10);
             this.Text = "Description Generator";
-            this.Load += new System.EventHandler(this.DescriptionGenerator_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.rowsListContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -242,7 +241,7 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox productName;
+        private System.Windows.Forms.TextBox lineHeader;
         private System.Windows.Forms.TextBox description;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button generateHtmlButton;
@@ -257,7 +256,7 @@
         private System.Windows.Forms.ContextMenuStrip rowsListContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.CheckedListBox suppliersWarranties;
     }
 }
 
