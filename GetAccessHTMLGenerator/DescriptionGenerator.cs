@@ -6,7 +6,7 @@ using HtmlAgilityPack;
 
 namespace GetAccessHTMLGenerator
 {
-    public partial class Form1 : Form
+    public partial class DescriptionGenerator : Form
     {
 
         private bool productNameHasValue = false;
@@ -18,30 +18,20 @@ namespace GetAccessHTMLGenerator
         private string descriptionValue;
 
         private HtmlAgilityPack.HtmlDocument document;
-        private const string HtmlFileName = @"html.html";
+        private const string HtmlFileName = @"description.html";
 
         private const string rowXpath = "//div[@class='rows_container']/div[contains(@class, 'row')]";
         HtmlNode rowsContainer;
 
 
-        public Form1()
+        public DescriptionGenerator()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void DescriptionGenerator_Load(object sender, EventArgs e)
         {
             this.ParseHTML();
-            List<string[]> rows = this.ParseRowsFromHtml();
-            this.AddItemsToList(rows);
-            this.SetGenerateHtmlButtonState();
-            this.rowsContainer = this.FindNodes("//div[contains(@class, 'rows_container')]").First();
-        }
-
-        private void generateHtmlButton_Click(object sender, EventArgs e)
-        { 
-            this.UpdateHtml();
-            this.CopyHTMLToClipboard();
         }
 
         private void ParseHTML()
@@ -50,12 +40,21 @@ namespace GetAccessHTMLGenerator
             {
                 this.document = new HtmlAgilityPack.HtmlDocument();
                 this.document.Load(HtmlFileName);
+                this.ShouldShow();           
             }
             catch (System.IO.FileNotFoundException)
             {
                 this.RaiseAlert($"Failed to find '{HtmlFileName}' in the directory!!!");
                 this.Close();
             }
+        }
+
+        private void ShouldShow()
+        {
+            List<string[]> rows = this.ParseRowsFromHtml();
+            this.AddItemsToList(rows);
+            this.SetGenerateHtmlButtonState();
+            this.rowsContainer = this.FindNodes("//div[contains(@class, 'rows_container')]").First();
         }
 
         private List<string[]> ParseRowsFromHtml()
@@ -100,6 +99,12 @@ namespace GetAccessHTMLGenerator
             this.rowsList.Items.Add(item);
         }
 
+        private void generateHtmlButton_Click(object sender, EventArgs e)
+        {
+            this.UpdateHtml();
+            this.CopyHTMLToClipboard();
+        }
+
         private void UpdateHtml()
         {
             this.rowsContainer.RemoveAllChildren();
@@ -140,7 +145,6 @@ namespace GetAccessHTMLGenerator
             return row;
         }
 
-
         private void CopyHTMLToClipboard()
         { 
             string newHtml = this.document.DocumentNode.WriteTo();
@@ -169,42 +173,19 @@ namespace GetAccessHTMLGenerator
                 stringToNormalize = stringToNormalize.Replace("\r\n", "");
             return stringToNormalize;
         }
-        private void ProductName_TextChanged(object sender, EventArgs e)
-        {
-            this.UpdateVarValue(varToUpdate: out this.rowHeaderValue, flagToUpdate: out this.productNameHasValue, value: productName.Text);
-            this.SetAddRowButtonState();
-        }
 
-        private void ImageLink_TextChanged(object sender, EventArgs e)
-        { 
-            this.UpdateVarValue(varToUpdate: out this.imageLinkValue, flagToUpdate: out this.imageLinkHasValue, value:imageLink.Text);
-            this.SetAddRowButtonState();
-        }
+        private void ProductName_TextChanged(object sender, EventArgs e) => this.SetAddRowButtonState();
 
-        private void Description_TextChanged(object sender, EventArgs e)
-        {
-            this.UpdateVarValue(varToUpdate: out this.descriptionValue, flagToUpdate: out this.descriptionHasValue, value: description.Text);
-            this.SetAddRowButtonState();
-        }
+        private void ImageLink_TextChanged(object sender, EventArgs e) => this.SetAddRowButtonState();
 
-        private void UpdateVarValue(out string varToUpdate, out bool flagToUpdate, string value)
-        {
-            
-            if (String.IsNullOrEmpty(value))
-            {
-                flagToUpdate = false;
-                varToUpdate = value;
-            }
-            else
-            {
-                flagToUpdate = true;
-                varToUpdate = value;
-            }
-        }
+        private void Description_TextChanged(object sender, EventArgs e) => this.SetAddRowButtonState();
 
         private void SetAddRowButtonState()
         {
-            addRowButton.Enabled = this.descriptionHasValue && this.imageLinkHasValue && this.productNameHasValue;
+            addRowButton.Enabled = 
+                !String.IsNullOrEmpty(this.description.Text) && 
+                !String.IsNullOrEmpty(this.imageLink.Text) &&
+                !String.IsNullOrEmpty(this.productName.Text);
         }
 
         private void RaiseAlert(string message)
@@ -222,13 +203,26 @@ namespace GetAccessHTMLGenerator
             this.description.ResetText();
         }
 
-        private void RemoveSelectedButton_Click(object sender, EventArgs e)
+        private void ListedItemsList_MouseClick(object sender, MouseEventArgs e)
         {
-            ListView.SelectedIndexCollection selected_indices = this.rowsList.SelectedIndices;
-            while (selected_indices.Count > 0)
+            if (e.Button == MouseButtons.Right)
             {
-                this.rowsList.Items[selected_indices[0]].Remove();
+                if (this.rowsList.FocusedItem.Bounds.Contains(e.Location))
+                {
+                    this.rowsListContextMenuStrip.Show(Cursor.Position);
+                }
             }
+        }
+
+        private void DeleteClicked(object sender, EventArgs e)
+        {
+            ListView.SelectedListViewItemCollection focusedItems = this.rowsList.SelectedItems;
+            
+            foreach (ListViewItem focusedItem in focusedItems)
+            {
+                this.rowsList.Items.Remove(focusedItem);
+            }
+            
             this.SetGenerateHtmlButtonState();
         }
 
@@ -237,35 +231,12 @@ namespace GetAccessHTMLGenerator
             this.generateHtmlButton.Enabled = this.rowsList.Items.Count > 0;
         }
 
-        private void RowsList_Leave(object sender, EventArgs e)
-        {
-            
-            this.removeSelectedButton.Enabled = this.FindFocusedControl(this) == this.removeSelectedButton;
-        }
-
-        private void RowsList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
-        {
-            this.removeSelectedButton.Enabled = e.IsSelected;
-        }
-
-        private Control FindFocusedControl(Control control)
-        {
-            var container = control as IContainerControl;
-            while (container != null)
-            {
-                control = container.ActiveControl;
-                container = control as IContainerControl;
-            }
-            return control;
-        }
-
-        private void rowsList_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void RowsList_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             ListViewItem item = this.rowsList.GetItemAt(e.X, e.Y);
             this.imageLink.Text = item.Text;
             this.productName.Text = item.SubItems[1].Text;
             this.description.Text = item.SubItems[2].Text;
         }
-
     }
 }
