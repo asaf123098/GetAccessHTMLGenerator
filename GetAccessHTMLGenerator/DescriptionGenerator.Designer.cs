@@ -60,12 +60,12 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Line Header:";
             // 
-            // productName
+            // lineHeader
             // 
             this.lineHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lineHeader.Location = new System.Drawing.Point(115, 45);
-            this.lineHeader.Name = "productName";
+            this.lineHeader.Name = "lineHeader";
             this.lineHeader.Size = new System.Drawing.Size(331, 20);
             this.lineHeader.TabIndex = 1;
             this.lineHeader.TextChanged += new System.EventHandler(this.ProductName_TextChanged);
@@ -101,7 +101,7 @@
             this.generateHtmlButton.TabIndex = 6;
             this.generateHtmlButton.Text = "Generate HTML";
             this.generateHtmlButton.UseVisualStyleBackColor = true;
-            this.generateHtmlButton.Click += new System.EventHandler(this.generateHtmlButton_Click);
+            this.generateHtmlButton.Click += new System.EventHandler(this.GenerateHtmlButton_Click);
             // 
             // pictureBox1
             // 
@@ -205,6 +205,8 @@
             // suppliersWarranties
             // 
             this.suppliersWarranties.FormattingEnabled = true;
+            this.suppliersWarranties.Items.AddRange(new object[] {
+            "CreationWatches"});
             this.suppliersWarranties.Location = new System.Drawing.Point(115, 211);
             this.suppliersWarranties.Name = "suppliersWarranties";
             this.suppliersWarranties.Size = new System.Drawing.Size(331, 34);

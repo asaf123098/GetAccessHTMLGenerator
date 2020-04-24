@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using HtmlAgilityPack;
-using System.Runtime.CompilerServices;
+using GeneralUtilities;
 
 namespace GetAccessHTMLGenerator
 {
@@ -13,9 +13,8 @@ namespace GetAccessHTMLGenerator
         private HtmlNode rowsContainer;
         private HtmlAgilityPack.HtmlDocument document;
         
-        private const string htmlTemplatesDirPath = @".\DescriptionHtmlTemplates";
+        public const string htmlTemplatesDirPath = @".\DescriptionHtmlTemplates";
         private readonly string htmlFilePath = Path.Combine(htmlTemplatesDirPath, "Description.html");
-        private readonly string warrantyAndReturnsTemplatesPath = Path.Combine(htmlTemplatesDirPath, "WarrantyAndRefundTemplates");
         
         private const string rowXpath = "//div[@class='rows_container']/div[contains(@class, 'row')]";
 
@@ -23,19 +22,19 @@ namespace GetAccessHTMLGenerator
         public DescriptionGenerator()
         {
             InitializeComponent();
-            InitSuppliersWarranties();
+            //InitSuppliersWarranties();
             ParseHTML();
         }
 
-        private void InitSuppliersWarranties()
-        {
-            string [] dirNames = Directory.GetDirectories(this.warrantyAndReturnsTemplatesPath);
-            foreach (string dirPath in dirNames)
-            {
-                string dirName = Path.GetFileName(dirPath);
-                this.suppliersWarranties.Items.Add(dirName);
-            }
-        }
+        //private void InitSuppliersWarranties()
+        //{
+        //    string[] dirNames = Directory.GetDirectories(this.warrantyAndReturnsTemplatesPath);
+        //    foreach (string dirPath in dirNames)
+        //    {
+        //        string dirName = Path.GetFileName(dirPath);
+        //        this.suppliersWarranties.Items.Add(dirName);
+        //    }
+        //}
 
         private void ParseHTML()
         {
@@ -47,7 +46,7 @@ namespace GetAccessHTMLGenerator
             }
             catch (FileNotFoundException)
             {
-                RaiseAlert($"Failed to find '{htmlFilePath}' in the directory!!!");
+                Utilities.RaiseAlert($"Failed to find '{htmlFilePath}' in the directory!!!");
                 Close();
             }
         }
@@ -57,17 +56,17 @@ namespace GetAccessHTMLGenerator
             List<string[]> rows = ParseRowsFromHtml();
             AddItemsToList(rows);
             SetGenerateHtmlButtonState();
-            this.rowsContainer = FindNodes("//div[contains(@class, 'rows_container')]").First();
+            this.rowsContainer = Utilities.FindNodes(this.document, "//div[contains(@class, 'rows_container')]").First();
         }
 
         private List<string[]> ParseRowsFromHtml()
         {
             List<string[]> rows = new List<string[]> { };
 
-            HtmlNodeCollection nodes = FindNodes(rowXpath, false);
-            HtmlNodeCollection images = FindNodes($"{rowXpath}/img", false);
-            HtmlNodeCollection headers = FindNodes($"{rowXpath}//span[contains(@class, 'header')]", false);
-            HtmlNodeCollection descriptions = FindNodes($"{rowXpath}//span[contains(@class, 'paragraph')]", false);
+            HtmlNodeCollection nodes = Utilities.FindNodes(this.document, rowXpath, false);
+            HtmlNodeCollection images = Utilities.FindNodes(this.document, $"{rowXpath}/img", false);
+            HtmlNodeCollection headers = Utilities.FindNodes(this.document, $"{rowXpath}//span[contains(@class, 'header')]", false);
+            HtmlNodeCollection descriptions = Utilities.FindNodes(this.document, $"{rowXpath}//span[contains(@class, 'paragraph')]", false);
 
             if (!(nodes == null))
             {
@@ -102,7 +101,7 @@ namespace GetAccessHTMLGenerator
             this.rowsList.Items.Add(item);
         }
 
-        private void generateHtmlButton_Click(object sender, EventArgs e)
+        private void GenerateHtmlButton_Click(object sender, EventArgs e)
         {
             UpdateHtml();
             CopyHTMLToClipboard();
@@ -126,6 +125,33 @@ namespace GetAccessHTMLGenerator
             }
             AddRowsToHtml();
             this.document.Save(htmlFilePath);
+        }
+
+        private bool AddWarrantyAndReturnsToHtml()
+        {
+            WarrantyAndReturnsGenerator generator = new WarrantyAndReturnsGenerator();
+
+            HtmlNode warrantyAndReturnsDiv = Utilities.FindNodes(this.document, "//div[@id='warranty-and-returns']", raiseException: false)[0];
+            CheckedListBox.CheckedItemCollection checkedSupplier = this.suppliersWarranties.CheckedItems;
+            if (checkedSupplier.Count == 0)
+            {
+                warrantyAndReturnsDiv.SetAttributeValue(name: "style", value: "display:none");
+                return false;
+            }
+            else
+            {
+                warrantyAndReturnsDiv.SetAttributeValue(name: "style", value: "display:block");
+
+                HtmlNode returnsSpan = Utilities.FindNodes(this.document, "//span[contains(@class, 'returns') and contains(@class, 'header')]")[0];
+                returnsSpan.RemoveAllChildren();
+                returnsSpan.AppendChild(generator.GetReturns());
+
+                HtmlNode warrantySpan = Utilities.FindNodes(this.document, "//span[contains(@class, 'warranty') and contains(@class, 'header')]")[0];
+                warrantySpan.RemoveAllChildren();
+                warrantySpan.AppendChild(generator.GetWarranty());
+
+                return true;
+            }
         }
 
         private void AddRowsToHtml()
@@ -167,66 +193,11 @@ namespace GetAccessHTMLGenerator
             return row;
         }
 
-        private bool AddWarrantyAndReturnsToHtml()
-        {
-            HtmlNode warrantyAndReturnsDiv = this.FindNodes("//div[@id='warranty-and-returns']", raiseException: false)[0];
-            CheckedListBox.CheckedItemCollection checkedSupplier = this.suppliersWarranties.CheckedItems;
-            if (checkedSupplier.Count == 0)
-            {
-                warrantyAndReturnsDiv.SetAttributeValue(name: "style", value: "display:none");
-                return false;
-            }
-            else
-            {
-                warrantyAndReturnsDiv.SetAttributeValue(name: "style", value: "display:block");
-                string supplierName = checkedSupplier[0].ToString();
-                
-                HtmlNode warrantySpan = FindNodes("//span[contains(@class, 'warranty') and contains(@class, 'header')]")[0];
-                warrantySpan.AppendChild(GetSupplierWarranty(supplierName));
-                
-                HtmlNode returnsSpan = FindNodes("//span[contains(@class, 'returns') and contains(@class, 'header')]")[0];
-                returnsSpan.AppendChild(GetSupplierReturns(supplierName));
-
-                return true;
-            }
-        }
-
-        private HtmlNode GetSupplierWarranty(string supplierName)
-        {
-            string warrantyTemplatePath = Path.Combine(this.warrantyAndReturnsTemplatesPath, supplierName, "Warranty.html");
-            HtmlAgilityPack.HtmlDocument warrantyDocument = new HtmlAgilityPack.HtmlDocument();
-            warrantyDocument.Load(warrantyTemplatePath);
-
-            return HtmlNode.CreateNode(warrantyDocument.Text);
-        }
-
-        private HtmlNode GetSupplierReturns(string supplierName)
-        {
-            string returnsTemplatePath = Path.Combine(this.warrantyAndReturnsTemplatesPath, supplierName, "Returns.html");
-            HtmlAgilityPack.HtmlDocument returnsDocument = new HtmlAgilityPack.HtmlDocument();
-            returnsDocument.Load(returnsTemplatePath);
-
-            return HtmlNode.CreateNode(returnsDocument.Text);
-        }
-
+        
         private void CopyHTMLToClipboard()
         { 
             string newHtml = this.document.DocumentNode.WriteTo();
             Clipboard.SetText(NormalizeString(newHtml));
-        }
-
-        private HtmlNodeCollection FindNodes(string xpath, bool raiseException = true)
-        {
-            HtmlNodeCollection nodes = this.document.DocumentNode.SelectNodes(xpath);
-
-            if (nodes != null)
-                return nodes;
-            else if (raiseException)
-            { 
-                RaiseAlert($"Failed to find xpath: '{xpath}'");
-                Application.Exit();
-            }
-            return null;
         }
 
         private string NormalizeString(string stringToNormalize, bool deleteNewLines = false)
@@ -250,11 +221,6 @@ namespace GetAccessHTMLGenerator
                 !String.IsNullOrEmpty(this.description.Text) && 
                 !String.IsNullOrEmpty(this.imageLink.Text) &&
                 !String.IsNullOrEmpty(this.lineHeader.Text);
-        }
-
-        private void RaiseAlert(string message)
-        {
-            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void AddRowButton_Click(object sender, EventArgs e)

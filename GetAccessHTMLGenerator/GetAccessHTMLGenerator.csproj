@@ -57,6 +57,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WarrantyAndReturnsGenerator.cs" />
     <EmbeddedResource Include="DescriptionGenerator.resx">
       <DependentUpon>DescriptionGenerator.cs</DependentUpon>
     </EmbeddedResource>
@@ -83,6 +84,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GeneralUtilities\GeneralUtilities.csproj">
+      <Project>{e022b6db-27e2-45a3-9df6-36ba8fd32bb7}</Project>
+      <Name>GeneralUtilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
