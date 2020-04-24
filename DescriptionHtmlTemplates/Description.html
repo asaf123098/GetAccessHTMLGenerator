@@ -77,11 +77,18 @@
         display: block;
     }
 
+    div#warranty-and-returns>.warranty::before {
+        content: "Click to See Warranty";
+    }
+
+    div#warranty-and-returns>.returns::before {
+        content: "Click to See Returns";
+    }
+
     div#warranty-and-returns > span > ul {
         color: #004ba0;
         display: none;
         text-align: left;
-        font-size: 1em;
         font-weight: normal;
     }
     div#warranty-and-returns > span > ul > li
@@ -184,14 +191,18 @@
 
         div#warranty-and-returns > span {
             margin: 1%;
-            padding: 1%;
+            padding: 3%;
             
             border: #4197fa solid 1.5px;
         }
 
-        div#warranty-and-returns > span > ul {
-            font-size: 1em;
-        }
+        div#warranty-and-returns>.warranty::before {
+        content: "Hover to See Warranty";
+    }
+
+    div#warranty-and-returns>.returns::before {
+        content: "Hover to See Returns";
+    }
 
         /* Circles area - GetAccess Intro */
 
@@ -231,67 +242,48 @@
 <body>
     <img src="https://i.imgur.com/Ao2bZbb.png" class="big_image">
 
-    <div class="rows_container">
-        <div class='gray row'>
-            <img src='https://i.ebayimg.com/00/s/MTAwMFgxMDAw/z/2lEAAOSw6Bpeje68/$_57.JPG?set_id=8800005007'>
-            <div class='text_container'>
-                <span class='header'>Features:</span>
-                <br>
-                <span class='paragraph'>- Restore soft and smooth skin<br>
-                    <br>
-                    - Exfoliate dead skin cells to reveal radiant and youthful skin<br>
-                    - Reduce and erase fine lines & blackheads<br>
-                    - Compact and light-weight<br>
-                    - 2 settings: "Low" for daily cleaning, "High" for exfoliation
-                </span>
-            </div>
-        </div>
-        <div class='white row'>
-            <img src='https://i.ebayimg.com/00/s/MTAwMFgxMDAw/z/2lEAAOSw6Bpeje68/$_57.JPG?set_id=8800005007'>
-            <div class='text_container'>
-                <span class='header'>Includes:</span>
-                <br>
-                <span class='paragraph'>- Main unit<br>
-                    - 4 x Attachments: soft brush, Rolling massager, make-up sponge, Latex sponge-soft.
-                </span>
-            </div>
-        </div>
-        <div class='gray row'>
-            <img src='https://i.ebayimg.com/00/s/MTAwMFgxMDAw/z/2lEAAOSw6Bpeje68/$_57.JPG?set_id=8800005007'>
-            <div class='text_container'>
-                <span class='header'>Specifications:</span>
-                <br>
-                <span class='paragraph'>- Powered By
-                    : 2 "AA" batteries (NOT INCLUDED)<br>
-                    - Dimensions: 130 x 70 x 48 mm<br>
-                    - Operation condition: Temperature 10-40'C (50-104'F), Humidity 30%-90%<br>
-                    - This product is not waterproof and can not be used in the shower!
-                </span>
-            </div>
-        </div>
-        <div class='white row'>
-            <img src='https://i.ebayimg.com/00/s/MTAwMFgxMDAw/z/2lEAAOSw6Bpeje68/$_57.JPG?set_id=8800005007'>
-            <div class='text_container'>
-                <span class='header'>Specifications:</span>
-                <br>
-                <span class='paragraph'>- Powered
-                    By : 2 "AA" batteries (NOT INCLUDED)<br>
-                    - Dimensions: 130 x 70 x 48 mm<br>
-                    - Operation condition: Temperature 10-40'C (50-104'F), Humidity 30%-90%<br>
-                    - This product is not waterproof and can not be used in the shower!
-                </span>
-            </div>
-        </div>
-    </div>
+    <div class="rows_container"><div class='gray row'><img src='https://i.ebayimg.com/00/s/MTAwMFgxMDAw/z/2lEAAOSw6Bpeje68/$_57.JPG?set_id=8800005007'><div class='text_container'><span class='header'>Features:</span><br><span class='paragraph'>- Restore soft and smooth skin<br>
+ <br>
+ - Exfoliate dead skin cells to reveal radiant and youthful skin<br>
+ - Reduce and erase fine lines & blackheads<br>
+ - Compact and light-weight<br>
+ - 2 settings: "Low" for daily cleaning, "High" for exfoliation<br>
+ </span></div></div><div class='white row'><img src='https://i.ebayimg.com/00/s/MTAwMFgxMDAw/z/2lEAAOSw6Bpeje68/$_57.JPG?set_id=8800005007'><div class='text_container'><span class='header'>Includes:</span><br><span class='paragraph'>- Main unit<br>
+ - 4 x Attachments: soft brush, Rolling massager, make-up sponge, Latex sponge-soft.<br>
+ </span></div></div><div class='gray row'><img src='https://i.ebayimg.com/00/s/MTAwMFgxMDAw/z/2lEAAOSw6Bpeje68/$_57.JPG?set_id=8800005007'><div class='text_container'><span class='header'>Specifications:</span><br><span class='paragraph'>- Powered By<br>
+ : 2 "AA" batteries (NOT INCLUDED)<br>
+ - Dimensions: 130 x 70 x 48 mm<br>
+ - Operation condition: Temperature 10-40'C (50-104'F), Humidity 30%-90%<br>
+ - This product is not waterproof and can not be used in the shower!<br>
+ </span></div></div><div class='white row'><img src='https://i.ebayimg.com/00/s/MTAwMFgxMDAw/z/2lEAAOSw6Bpeje68/$_57.JPG?set_id=8800005007'><div class='text_container'><span class='header'>Specifications:</span><br><span class='paragraph'>- Powered<br>
+ By : 2 "AA" batteries (NOT INCLUDED)<br>
+ - Dimensions: 130 x 70 x 48 mm<br>
+ - Operation condition: Temperature 10-40'C (50-104'F), Humidity 30%-90%<br>
+ - This product is not waterproof and can not be used in the shower!<br>
+ </span></div></div></div>
     <hr style="width: 30%; border: solid 1px;margin: 3% auto;">
 
-    <div id='warranty-and-returns'>
-        <span class='warranty header'>See Warranty
-
-        </span>
-        <span class='returns header'>See Returns
-            
-        </span>
+    <div id='warranty-and-returns' style="display:block">
+        <span class='warranty header'><ul><h2 class="heading2">Your watch has a worldwide warranty. Find out what you&rsquo;re covered for&hellip;</h2><p><strong>For watches shipped with manufacturer warranty cards:</strong><br>
+If, for any reason your local service center cannot repair the watch, send it to us for servicing.</p><p><strong>The measures we take to ensure you get what you pay for...</strong></p><ul class="list-one">
+	<li>Each watch is quality inspected before being shipped to you</li>
+	<li>An international warranty card is included with your watch</li>
+	<li>Send us a message and we&rsquo;ll analyse your issue. If repair is needed, we&rsquo;ll ask you to take the watch to the service center or to send the watch to us; then we&rsquo;ll service it and return it to you.</li>
+</ul><p><strong>What&#39;s covered or not covered by your warranty?</strong><br>
+Your warranty covers the internal mechanism of the watch.</p><p><strong>It does not cover external physical damage, including:</strong></p><ul class="list-one">
+	<li>Water/moisture damage</li>
+	<li>Damage to the watch case or glass</li>
+	<li>Missing stones or gems (e.g., from the watch face)</li>
+	<li>Damage to the watch bracelet/band or straps</li>
+	<li>Damage to the crown/stem or finishes</li>
+	<li>Damage to clasps/buckles</li>
+	<li>Signs of wear and tear to the watch from normal daily use</li>
+	<li>Damage to the battery</li>
+</ul><p>The warranty does not cover damage under conditions that are not in line with specified manufacturer guidelines, e.g. defects caused by outside force, improper use, or that exceed water resistance guidelines.<br>
+</p></ul></span>
+        <span class='returns header'><ul><p>We accept returns and will refund you for your purchase under the conditions outlined below.</p><p>To be eligible for return or exchange, all watches must be sent back to us within the first 30 days following the receipt of the watch and must meet the following conditions:</p><p><img height="10" src="https://www.creationwatches.com/products/images/circle.gif" alt="circle" width="10">Watch in original working condition with no accidental damage caused by you<br>
+			<img height="10" src="https://www.creationwatches.com/products/images/circle.gif" alt="circle" width="10">No scratches on the watch case, glass or watch strap due to usage<br>
+			<img height="10" src="https://www.creationwatches.com/products/images/circle.gif" alt="circle" width="10">No resizing, altering of bracelet</p><p>If you receive a watch which is damaged in transit or not working on arrival, it is still eligible for return. Please contact us immediately </p><p>Once you return the watch, you can opt for either a refund of the purchase price or an exchange with another watch with the price difference topped up or refunded. We will issue a refund within 24 hours of receipt of the return package.</p><p class="style3">Return shipping charges are the responsibility of the customer. We are not responsible for lost or damaged packages.</p></ul></span>
     </div>
     <img src="https://i.imgur.com/QYChVqu.png" class="big_image">
 
