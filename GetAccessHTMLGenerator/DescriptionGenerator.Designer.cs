@@ -105,8 +105,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(452, 14);
             this.pictureBox1.Name = "pictureBox1";
@@ -204,6 +203,7 @@
             // 
             // suppliersWarranties
             // 
+            this.suppliersWarranties.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.suppliersWarranties.FormattingEnabled = true;
             this.suppliersWarranties.Items.AddRange(new object[] {
             "CreationWatches"});
@@ -229,9 +229,10 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lineHeader);
             this.Controls.Add(this.label1);
-            this.MinimumSize = new System.Drawing.Size(645, 459);
+            this.MinimumSize = new System.Drawing.Size(694, 530);
             this.Name = "DescriptionGenerator";
             this.Padding = new System.Windows.Forms.Padding(0, 0, 10, 10);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Description Generator";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.rowsListContextMenuStrip.ResumeLayout(false);
