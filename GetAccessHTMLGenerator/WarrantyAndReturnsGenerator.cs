@@ -16,12 +16,37 @@ namespace GetAccessHTMLGenerator
 
         public WarrantyAndReturnsGenerator()
         {
+           
+        }
+
+        public HtmlNode GetWarranty()
+        {
             this.warrantyNode = GetPage(@"https://www.creationwatches.com/warranty.html");
             VerifyMatchesExpected(templateFileName: "WarrantyToCompare.html", type: "warranty", compareTo: this.warrantyNode);
 
+            int[] neededNodes = new int[] { 1, 13, 15, 17, 19, 21, 23, 25 };
+
+            HtmlNode list = ChangeNodeToList(this.warrantyNode, neededNodes);
+
+            list.ChildNodes[3].ChildNodes[5].InnerHtml = list.ChildNodes[3].ChildNodes[5].InnerHtml.Replace("an email", "a message");
+            list.ChildNodes[1].InnerHtml = list.ChildNodes[1].InnerHtml.Split(new string[] { " In such cases," }, StringSplitOptions.None)[0];
+            list.LastChild.InnerHtml = list.LastChild.InnerHtml.Split(new string[] { "Also" }, StringSplitOptions.None)[0];
+            return list;
+        }
+
+        public HtmlNode GetReturns()
+        {
             this.returnsNode = GetPage(@"https://www.creationwatches.com/returns.html");
             VerifyMatchesExpected(templateFileName: "ReturnsToCompare.html", type: "returns", compareTo: this.returnsNode);
 
+
+            int[] neededNodes = new int[] {1, 3, 5, 7, 9, 11, };
+
+            HtmlNode list = ChangeNodeToList(this.returnsNode.SelectSingleNode("//td"), neededNodes);
+
+            list.ChildNodes[3].InnerHtml = list.ChildNodes[3].InnerHtml.Split(new string[] { "at contact@creationwatches.com" }, StringSplitOptions.None)[0];
+
+            return list;
         }
 
         private HtmlNode GetPage(string url)
@@ -47,28 +72,6 @@ namespace GetAccessHTMLGenerator
             }
         }
 
-        public HtmlNode GetWarranty()
-        {
-            int[] neededNodes = new int[] {1, 13, 15, 17, 19, 21, 23, 25 };
-
-            HtmlNode list = ChangeNodeToList(this.warrantyNode, neededNodes);
-
-            list.ChildNodes[3].ChildNodes[5].InnerHtml = list.ChildNodes[3].ChildNodes[5].InnerHtml.Replace("an email", "a message");
-            list.ChildNodes[1].InnerHtml = list.ChildNodes[1].InnerHtml.Split(new string[] { " In such cases," }, StringSplitOptions.None)[0]; 
-            list.LastChild.InnerHtml = list.LastChild.InnerHtml.Split(new string[] { "Also" }, StringSplitOptions.None)[0];
-            return list;
-        }
-
-        public HtmlNode GetReturns()
-        {
-            int[] neededNodes = new int[] {1, 3, 5, 7, 9, 11, };
-
-            HtmlNode list = ChangeNodeToList(this.returnsNode.SelectSingleNode("//td"), neededNodes);
-
-            list.ChildNodes[3].InnerHtml = list.ChildNodes[3].InnerHtml.Split(new string[] { "at contact@creationwatches.com" }, StringSplitOptions.None)[0];
-
-            return list;
-        }
 
         private HtmlNode ChangeNodeToList(HtmlNode node, int [] neededNodes)
         {
@@ -80,6 +83,5 @@ namespace GetAccessHTMLGenerator
             }
             return listNode;
         }
-
     }
 }

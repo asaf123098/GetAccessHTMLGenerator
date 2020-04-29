@@ -97,7 +97,7 @@ namespace GetAccessHTMLGenerator
         {
             ListViewItem item = new ListViewItem(ImageLink);
             item.SubItems.Add(RowHeader);
-            item.SubItems.Add(Description.Replace("\r\n", "\r\n "));
+            item.SubItems.Add(Description);
             this.rowsList.Items.Add(item);
         }
 
@@ -132,6 +132,11 @@ namespace GetAccessHTMLGenerator
             WarrantyAndReturnsGenerator generator = new WarrantyAndReturnsGenerator();
 
             HtmlNode warrantyAndReturnsDiv = Utilities.FindNodes(this.document, "//div[@id='warranty-and-returns']", raiseException: false)[0];
+            HtmlNode returnsSpan = Utilities.FindNodes(this.document, "//span[contains(@class, 'returns') and contains(@class, 'header')]")[0];
+            HtmlNode warrantySpan = Utilities.FindNodes(this.document, "//span[contains(@class, 'warranty') and contains(@class, 'header')]")[0];
+            returnsSpan.RemoveAllChildren();
+            warrantySpan.RemoveAllChildren();
+
             CheckedListBox.CheckedItemCollection checkedSupplier = this.suppliersWarranties.CheckedItems;
             if (checkedSupplier.Count == 0)
             {
@@ -141,13 +146,7 @@ namespace GetAccessHTMLGenerator
             else
             {
                 warrantyAndReturnsDiv.SetAttributeValue(name: "style", value: "display:block");
-
-                HtmlNode returnsSpan = Utilities.FindNodes(this.document, "//span[contains(@class, 'returns') and contains(@class, 'header')]")[0];
-                returnsSpan.RemoveAllChildren();
-                returnsSpan.AppendChild(generator.GetReturns());
-
-                HtmlNode warrantySpan = Utilities.FindNodes(this.document, "//span[contains(@class, 'warranty') and contains(@class, 'header')]")[0];
-                warrantySpan.RemoveAllChildren();
+                returnsSpan.AppendChild(generator.GetReturns());    
                 warrantySpan.AppendChild(generator.GetWarranty());
 
                 return true;
