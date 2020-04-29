@@ -57,7 +57,7 @@
             this.label1.Location = new System.Drawing.Point(18, 48);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 13);
-            this.label1.TabIndex = 0;
+            this.label1.TabIndex = 8;
             this.label1.Text = "Line Header:";
             // 
             // lineHeader
@@ -79,7 +79,7 @@
             this.description.Multiline = true;
             this.description.Name = "description";
             this.description.Size = new System.Drawing.Size(331, 118);
-            this.description.TabIndex = 5;
+            this.description.TabIndex = 2;
             this.description.TextChanged += new System.EventHandler(this.Description_TextChanged);
             // 
             // label3
@@ -88,7 +88,7 @@
             this.label3.Location = new System.Drawing.Point(18, 75);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(63, 13);
-            this.label3.TabIndex = 4;
+            this.label3.TabIndex = 9;
             this.label3.Text = "Description:";
             // 
             // generateHtmlButton
@@ -128,7 +128,7 @@
             this.rowsList.Location = new System.Drawing.Point(115, 259);
             this.rowsList.Name = "rowsList";
             this.rowsList.Size = new System.Drawing.Size(532, 181);
-            this.rowsList.TabIndex = 8;
+            this.rowsList.TabIndex = 5;
             this.rowsList.UseCompatibleStateImageBehavior = false;
             this.rowsList.View = System.Windows.Forms.View.Details;
             this.rowsList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListedItemsList_MouseClick);
@@ -156,7 +156,7 @@
             this.addRowButton.Location = new System.Drawing.Point(452, 170);
             this.addRowButton.Name = "addRowButton";
             this.addRowButton.Size = new System.Drawing.Size(195, 23);
-            this.addRowButton.TabIndex = 9;
+            this.addRowButton.TabIndex = 3;
             this.addRowButton.Text = "Add Row";
             this.addRowButton.UseVisualStyleBackColor = true;
             this.addRowButton.Click += new System.EventHandler(this.AddRowButton_Click);
@@ -168,7 +168,7 @@
             this.imageLink.Location = new System.Drawing.Point(115, 14);
             this.imageLink.Name = "imageLink";
             this.imageLink.Size = new System.Drawing.Size(331, 20);
-            this.imageLink.TabIndex = 12;
+            this.imageLink.TabIndex = 0;
             this.imageLink.TextChanged += new System.EventHandler(this.ImageLink_TextChanged);
             // 
             // label2
@@ -177,7 +177,7 @@
             this.label2.Location = new System.Drawing.Point(18, 17);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
-            this.label2.TabIndex = 11;
+            this.label2.TabIndex = 7;
             this.label2.Text = "Image Link:";
             // 
             // rowsListContextMenuStrip
@@ -199,7 +199,7 @@
             this.label4.Location = new System.Drawing.Point(18, 211);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(78, 31);
-            this.label4.TabIndex = 13;
+            this.label4.TabIndex = 10;
             this.label4.Text = "Warranty And Returns:";
             // 
             // suppliersWarranties
@@ -210,7 +210,7 @@
             this.suppliersWarranties.Location = new System.Drawing.Point(115, 211);
             this.suppliersWarranties.Name = "suppliersWarranties";
             this.suppliersWarranties.Size = new System.Drawing.Size(331, 34);
-            this.suppliersWarranties.TabIndex = 14;
+            this.suppliersWarranties.TabIndex = 4;
             // 
             // DescriptionGenerator
             // 
