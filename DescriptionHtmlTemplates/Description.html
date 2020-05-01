@@ -14,36 +14,23 @@
     }
 
     div.row {
-        position: relative;
-        height: auto;
-        padding: 5%;
-    }
-
-    div.white.row::after {
-        content: "";
-        clear: right;
-        display: table;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
     }
 
     div.gray.row {
+        flex-direction: row;
         background-color: #e1e1e1;
     }
 
     div.row>img {
         border-radius: 50%;
-        height: 13%;
-        vertical-align: middle;
-
-        margin-right: 5%;
-    }
-
-    div.white.row>img {
-        float: right;
+        width: 22%;
+        margin: 5%;
     }
 
     .text_container {
-        display: inline-block;
-        vertical-align: middle;
         width: 55%;
     }
 
@@ -173,14 +160,6 @@
     }
 
     @media only screen and (min-width: 768px) {
-        div.row>img {
-            height: 30%;
-        }
-
-        .text_container {
-            max-width: 50%;
-        }
-
         span.header {
             font-size: 1.5em;
         }
