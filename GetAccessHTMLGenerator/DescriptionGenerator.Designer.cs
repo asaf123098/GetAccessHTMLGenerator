@@ -47,6 +47,9 @@
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label4 = new System.Windows.Forms.Label();
             this.suppliersWarranties = new System.Windows.Forms.CheckedListBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.rawInfo = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.rowsListContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -57,7 +60,7 @@
             this.label1.Location = new System.Drawing.Point(18, 48);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 13);
-            this.label1.TabIndex = 8;
+            this.label1.TabIndex = 9;
             this.label1.Text = "Line Header:";
             // 
             // lineHeader
@@ -72,13 +75,12 @@
             // 
             // description
             // 
-            this.description.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.description.Location = new System.Drawing.Point(115, 75);
             this.description.Multiline = true;
             this.description.Name = "description";
-            this.description.Size = new System.Drawing.Size(331, 118);
+            this.description.Size = new System.Drawing.Size(331, 132);
             this.description.TabIndex = 2;
             this.description.TextChanged += new System.EventHandler(this.Description_TextChanged);
             // 
@@ -88,17 +90,17 @@
             this.label3.Location = new System.Drawing.Point(18, 75);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(63, 13);
-            this.label3.TabIndex = 9;
+            this.label3.TabIndex = 10;
             this.label3.Text = "Description:";
             // 
             // generateHtmlButton
             // 
             this.generateHtmlButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.generateHtmlButton.Enabled = false;
-            this.generateHtmlButton.Location = new System.Drawing.Point(490, 455);
+            this.generateHtmlButton.Location = new System.Drawing.Point(490, 555);
             this.generateHtmlButton.Name = "generateHtmlButton";
             this.generateHtmlButton.Size = new System.Drawing.Size(157, 23);
-            this.generateHtmlButton.TabIndex = 6;
+            this.generateHtmlButton.TabIndex = 7;
             this.generateHtmlButton.Text = "Generate HTML";
             this.generateHtmlButton.UseVisualStyleBackColor = true;
             this.generateHtmlButton.Click += new System.EventHandler(this.GenerateHtmlButton_Click);
@@ -109,7 +111,7 @@
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(452, 14);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(195, 150);
+            this.pictureBox1.Size = new System.Drawing.Size(213, 161);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
@@ -124,10 +126,10 @@
             this.columnHeader3});
             this.rowsList.FullRowSelect = true;
             this.rowsList.HideSelection = false;
-            this.rowsList.Location = new System.Drawing.Point(115, 259);
+            this.rowsList.Location = new System.Drawing.Point(115, 359);
             this.rowsList.Name = "rowsList";
             this.rowsList.Size = new System.Drawing.Size(532, 181);
-            this.rowsList.TabIndex = 5;
+            this.rowsList.TabIndex = 6;
             this.rowsList.UseCompatibleStateImageBehavior = false;
             this.rowsList.View = System.Windows.Forms.View.Details;
             this.rowsList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListedItemsList_MouseClick);
@@ -152,10 +154,10 @@
             // 
             this.addRowButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.addRowButton.Enabled = false;
-            this.addRowButton.Location = new System.Drawing.Point(452, 170);
+            this.addRowButton.Location = new System.Drawing.Point(452, 254);
             this.addRowButton.Name = "addRowButton";
-            this.addRowButton.Size = new System.Drawing.Size(195, 23);
-            this.addRowButton.TabIndex = 3;
+            this.addRowButton.Size = new System.Drawing.Size(213, 23);
+            this.addRowButton.TabIndex = 4;
             this.addRowButton.Text = "Add Row";
             this.addRowButton.UseVisualStyleBackColor = true;
             this.addRowButton.Click += new System.EventHandler(this.AddRowButton_Click);
@@ -176,7 +178,7 @@
             this.label2.Location = new System.Drawing.Point(18, 17);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
-            this.label2.TabIndex = 7;
+            this.label2.TabIndex = 8;
             this.label2.Text = "Image Link:";
             // 
             // rowsListContextMenuStrip
@@ -195,10 +197,12 @@
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(18, 211);
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.label4.Location = new System.Drawing.Point(18, 357);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(78, 31);
-            this.label4.TabIndex = 10;
+            this.label4.Size = new System.Drawing.Size(78, 0);
+            this.label4.TabIndex = 12;
             this.label4.Text = "Warranty And Returns:";
             // 
             // suppliersWarranties
@@ -207,16 +211,47 @@
             this.suppliersWarranties.FormattingEnabled = true;
             this.suppliersWarranties.Items.AddRange(new object[] {
             "CreationWatches"});
-            this.suppliersWarranties.Location = new System.Drawing.Point(115, 211);
+            this.suppliersWarranties.Location = new System.Drawing.Point(115, 311);
             this.suppliersWarranties.Name = "suppliersWarranties";
             this.suppliersWarranties.Size = new System.Drawing.Size(331, 34);
-            this.suppliersWarranties.TabIndex = 4;
+            this.suppliersWarranties.TabIndex = 5;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(18, 226);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 13);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "Raw Info:";
+            // 
+            // rawInfo
+            // 
+            this.rawInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rawInfo.Location = new System.Drawing.Point(115, 226);
+            this.rawInfo.Multiline = true;
+            this.rawInfo.Name = "rawInfo";
+            this.rawInfo.Size = new System.Drawing.Size(331, 51);
+            this.rawInfo.TabIndex = 3;
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(21, 311);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(88, 34);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "Warranty and returns:";
             // 
             // DescriptionGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(678, 491);
+            this.ClientSize = new System.Drawing.Size(678, 591);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.rawInfo);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.suppliersWarranties);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.imageLink);
@@ -229,7 +264,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lineHeader);
             this.Controls.Add(this.label1);
-            this.MinimumSize = new System.Drawing.Size(694, 530);
+            this.MinimumSize = new System.Drawing.Size(694, 630);
             this.Name = "DescriptionGenerator";
             this.Padding = new System.Windows.Forms.Padding(0, 0, 10, 10);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -260,6 +295,9 @@
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckedListBox suppliersWarranties;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox rawInfo;
+        private System.Windows.Forms.Label label6;
     }
 }
 

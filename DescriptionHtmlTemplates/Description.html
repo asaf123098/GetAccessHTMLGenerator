@@ -59,17 +59,17 @@
     }
 
     /* Warranty and returns */
-    
-    div#warranty-and-returns {
+
+    div#important-info {
         width: 80%;
         margin: 0 auto;
         text-align: center;
     }
 
-    div#warranty-and-returns > span {
+    div#important-info>span {
         margin: 2%;
         padding: 3%;
-        
+
         color: #4197fa;
         border: #4197fa solid 1.2px;
 
@@ -77,32 +77,38 @@
         display: block;
     }
 
-    div#warranty-and-returns>.warranty::before {
+    div#important-info>.additional-info::before {
+        content: "Additional Information";
+    }
+
+    div#important-info>.warranty::before {
         content: "Warranty";
     }
 
-    div#warranty-and-returns>.returns::before {
+    div#important-info>.returns::before {
         content: "Returns Policy";
     }
 
-    div#warranty-and-returns > span > ul {
+    div#important-info>span>* {
         color: #004ba0;
         display: none;
         text-align: left;
         font-weight: normal;
     }
-    div#warranty-and-returns > span > ul > li
-    { 
+
+    div#important-info>span>ul>li {
         margin: 3% 0;
     }
 
-    div#warranty-and-returns > .warranty:hover > ul
-    {
+    div#important-info>.additional-info:hover>p {
         display: block;
     }
-    
-    div#warranty-and-returns > .returns:hover > ul
-    { 
+
+    div#important-info>.warranty:hover>ul {
+        display: block;
+    }
+
+    div#important-info>.returns:hover>ul {
         display: block;
     }
 
@@ -184,15 +190,15 @@
         }
 
         /* Warranty and returns */
-    
-        div#warranty-and-returns {
+
+        div#important-info {
             width: 50%;
         }
 
-        div#warranty-and-returns > span {
+        div#important-info>span {
             margin: 1%;
             padding: 3%;
-            
+
             border: #4197fa solid 1.5px;
         }
 
@@ -255,27 +261,10 @@
  </span></div></div></div>
     <hr style="width: 30%; border: solid 1px;margin: 3% auto;">
 
-    <div id='warranty-and-returns' style="display:block">
-        <span class='warranty header'><ul><h2 class="heading2">Your watch has a worldwide warranty. Find out what you&rsquo;re covered for&hellip;</h2><p><strong>For watches shipped with manufacturer warranty cards:</strong><br>
-If, for any reason your local service center cannot repair the watch, send it to us for servicing.</p><p><strong>The measures we take to ensure you get what you pay for...</strong></p><ul class="list-one">
-	<li>Each watch is quality inspected before being shipped to you</li>
-	<li>An international warranty card is included with your watch</li>
-	<li>Send us a message and we&rsquo;ll analyse your issue. If repair is needed, we&rsquo;ll ask you to take the watch to the service center or to send the watch to us; then we&rsquo;ll service it and return it to you.</li>
-</ul><p><strong>What&#39;s covered or not covered by your warranty?</strong><br>
-Your warranty covers the internal mechanism of the watch.</p><p><strong>It does not cover external physical damage, including:</strong></p><ul class="list-one">
-	<li>Water/moisture damage</li>
-	<li>Damage to the watch case or glass</li>
-	<li>Missing stones or gems (e.g., from the watch face)</li>
-	<li>Damage to the watch bracelet/band or straps</li>
-	<li>Damage to the crown/stem or finishes</li>
-	<li>Damage to clasps/buckles</li>
-	<li>Signs of wear and tear to the watch from normal daily use</li>
-	<li>Damage to the battery</li>
-</ul><p>The warranty does not cover damage under conditions that are not in line with specified manufacturer guidelines, e.g. defects caused by outside force, improper use, or that exceed water resistance guidelines.<br>
-</p></ul></span>
-        <span class='returns header'><ul><p>We accept returns and will refund you for your purchase under the conditions outlined below.</p><p>To be eligible for return or exchange, all watches must be sent back to us within the first 30 days following the receipt of the watch and must meet the following conditions:</p><p><img height="10" src="https://www.creationwatches.com/products/images/circle.gif" alt="circle" width="10">Watch in original working condition with no accidental damage caused by you<br>
-			<img height="10" src="https://www.creationwatches.com/products/images/circle.gif" alt="circle" width="10">No scratches on the watch case, glass or watch strap due to usage<br>
-			<img height="10" src="https://www.creationwatches.com/products/images/circle.gif" alt="circle" width="10">No resizing, altering of bracelet</p><p>If you receive a watch which is damaged in transit or not working on arrival, it is still eligible for return. Please contact us immediately </p><p>Once you return the watch, you can opt for either a refund of the purchase price or an exchange with another watch with the price difference topped up or refunded. We will issue a refund within 24 hours of receipt of the return package.</p><p class="style3">Return shipping charges are the responsibility of the customer. We are not responsible for lost or damaged packages.</p></ul></span>
+    <div id='important-info' style="display:block">
+        <span class='additional-info header' style="display:none"></span>
+        <span class='warranty header' style="display:none"></span>
+        <span class='returns header' style="display:none"></span>
     </div>
     <img src="https://i.imgur.com/QYChVqu.png" class="big_image">
 

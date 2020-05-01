@@ -124,6 +124,7 @@ namespace GetAccessHTMLGenerator
                     return;                    
             }
             AddRowsToHtml();
+            AddAdditionalInfoToHtml();
             this.document.Save(htmlFilePath);
         }
 
@@ -131,7 +132,7 @@ namespace GetAccessHTMLGenerator
         {
             WarrantyAndReturnsGenerator generator = new WarrantyAndReturnsGenerator();
 
-            HtmlNode warrantyAndReturnsDiv = Utilities.FindNodes(this.document, "//div[@id='warranty-and-returns']", raiseException: false)[0];
+
             HtmlNode returnsSpan = Utilities.FindNodes(this.document, "//span[contains(@class, 'returns') and contains(@class, 'header')]")[0];
             HtmlNode warrantySpan = Utilities.FindNodes(this.document, "//span[contains(@class, 'warranty') and contains(@class, 'header')]")[0];
             returnsSpan.RemoveAllChildren();
@@ -140,12 +141,15 @@ namespace GetAccessHTMLGenerator
             CheckedListBox.CheckedItemCollection checkedSupplier = this.suppliersWarranties.CheckedItems;
             if (checkedSupplier.Count == 0)
             {
-                warrantyAndReturnsDiv.SetAttributeValue(name: "style", value: "display:none");
+                warrantySpan.SetAttributeValue(name: "style", value: "display:none");
+                returnsSpan.SetAttributeValue(name: "style", value: "display:none");
                 return false;
             }
             else
             {
-                warrantyAndReturnsDiv.SetAttributeValue(name: "style", value: "display:block");
+                warrantySpan.SetAttributeValue(name: "style", value: "display:block");
+                returnsSpan.SetAttributeValue(name: "style", value: "display:block");
+
                 returnsSpan.AppendChild(generator.GetReturns());    
                 warrantySpan.AppendChild(generator.GetWarranty());
 
@@ -169,8 +173,24 @@ namespace GetAccessHTMLGenerator
                 paragraph = paragraph.Replace("\r\n", "<br>\r\n");
 
                 this.rowsContainer.AppendChild(this.GetNewRowElement(color, imageLink, header, paragraph));
-
             }
+        }
+
+        private void AddAdditionalInfoToHtml()
+        {
+            HtmlNode additionalInfoSpan = Utilities.FindNodes(this.document, "//span[contains(@class, 'additional-info')]")[0];
+            additionalInfoSpan.RemoveAllChildren();
+
+            if (String.IsNullOrEmpty(this.rawInfo.Text))
+                additionalInfoSpan.SetAttributeValue(name: "style", value: "display:none");
+            else
+            {
+                additionalInfoSpan.SetAttributeValue(name: "style", value: "display:block");
+                HtmlNode paragraph = HtmlNode.CreateNode("<p></p>");
+                paragraph.InnerHtml = this.rawInfo.Text.Replace("\n", "\n<br>");
+                additionalInfoSpan.AppendChild(paragraph);
+            }
+
         }
 
         private HtmlNode GetNewRowElement(string rowColor, string imageLink, string header, string paragraph)
