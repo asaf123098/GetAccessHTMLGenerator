@@ -45,6 +45,7 @@ namespace GetAccessHTMLGenerator
             HtmlNode list = ChangeNodeToList(this.returnsNode.SelectSingleNode("//td"), neededNodes);
 
             list.ChildNodes[3].InnerHtml = list.ChildNodes[3].InnerHtml.Split(new string[] { "at contact@creationwatches.com" }, StringSplitOptions.None)[0];
+            list.RemoveChild(list.ChildNodes[5]);
 
             return list;
         }
