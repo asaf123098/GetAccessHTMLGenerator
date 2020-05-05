@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using HtmlAgilityPack;
 using GeneralUtilities;
+using System.Drawing;
 
 namespace GetAccessHTMLGenerator
 {
@@ -105,6 +106,7 @@ namespace GetAccessHTMLGenerator
         {
             UpdateHtml();
             CopyHTMLToClipboard();
+            NotifyHtmlReady();
         }
 
         private void UpdateHtml()
@@ -219,6 +221,18 @@ namespace GetAccessHTMLGenerator
             Clipboard.SetText(NormalizeString(newHtml));
         }
 
+
+        private void NotifyHtmlReady()
+        {
+            NotifyIcon notifyIcon = new NotifyIcon
+            {
+                Visible = true,
+                Icon = SystemIcons.Information,
+                BalloonTipTitle = "HTML Description generator",
+                BalloonTipText = "Html successfully copied to clipboard!"
+            };
+            notifyIcon.ShowBalloonTip(1000);
+        }
         private string NormalizeString(string stringToNormalize, bool deleteNewLines = false)
         {
             stringToNormalize = stringToNormalize.Replace("\t", "");
